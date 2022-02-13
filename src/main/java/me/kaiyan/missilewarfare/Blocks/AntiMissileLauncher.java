@@ -14,7 +14,10 @@ import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.block.*;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockState;
+import org.bukkit.block.Dispenser;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.Directional;
 import org.bukkit.event.block.BlockDispenseEvent;
@@ -45,9 +48,9 @@ public class AntiMissileLauncher extends SlimefunItem{
                 Block block = event.getBlockPlaced();
                 //Block bottom = world.getBlockAt(event.getBlock().getLocation().subtract(new Vector(0, 2, 0)));
                 if (correctlyBuilt(block)){
-                    event.getPlayer().sendMessage("Created Anti Air Launcher");
+                    event.getPlayer().sendMessage("成功创建防空发射井！");
                 }else{
-                    event.getPlayer().sendMessage("Missing Obsidian Below Launcher");
+                    event.getPlayer().sendMessage("四面缺失原石/煤炭块");
                 }
             }
         };
@@ -65,8 +68,8 @@ public class AntiMissileLauncher extends SlimefunItem{
 
             @Override
             public void tick(Block block, SlimefunItem slimefunItem, Config config) {
-                TileState state = (TileState) block.getState();
-                PersistentDataContainer cont = state.getPersistentDataContainer();
+                BlockState state = block.getState();
+                PersistentDataContainer cont = state.getChunk().getPersistentDataContainer();
                 if (!block.isBlockPowered()) {
                     List<MissileController> missiles = MissileWarfare.activemissiles;
                     MissileController locked = null;
@@ -82,9 +85,9 @@ public class AntiMissileLauncher extends SlimefunItem{
                         if (locked != null && cont.get(new NamespacedKey(MissileWarfare.getInstance(), "timesincelastshot"), PersistentDataType.INTEGER) <= System.currentTimeMillis()) {
                             MissileWarfare.activemissiles.remove(locked);
                             MissileWarfare.activemissiles.add(locked);
-                            state.update();
                             fireMissile((Dispenser) block.getState(), locked);
-                            cont.set(new NamespacedKey(MissileWarfare.getInstance(), "timesincelastshot"), PersistentDataType.INTEGER, (int)System.currentTimeMillis()+1000);
+                            cont.set(new NamespacedKey(MissileWarfare.getInstance(), "timesincelastshot"), PersistentDataType.INTEGER, (int)System.currentTimeMillis()+3000);
+                            state.update();
                         }
                     } catch (NullPointerException e){
                         cont.set(new NamespacedKey(MissileWarfare.getInstance(), "timesincelastshot"), PersistentDataType.INTEGER, Integer.MIN_VALUE);
@@ -120,13 +123,13 @@ public class AntiMissileLauncher extends SlimefunItem{
     public void fireMissile(Dispenser disp, MissileController target){
         ItemStack missileitem = VariantsAPI.getFirstMissile(disp.getInventory());
         if (SlimefunItem.getByItem(missileitem) == SlimefunItem.getById("ANTIAIRMISSILE")) {
-            ItemUtils.consumeItem(missileitem, false);
             MissileController missile = new MissileController(false, disp.getBlock().getLocation().add(new Vector(0.5, 1.35, 0.5)).toVector(), new Vector(0, 0, 0), 3, disp.getWorld(), 3, 0, 0, new Vector(0, 0, 0));
             missile.FireMissileAtMissile(target);
+            ItemUtils.consumeItem(missileitem, false);
         }
     }
 
     public boolean correctlyBuilt(Block block) {
-        return block.getRelative(BlockFace.DOWN).getType() == Material.OBSIDIAN;
+        return block.getRelative(BlockFace.NORTH).getType() == Material.COAL_BLOCK && block.getRelative(BlockFace.SOUTH).getType() == Material.COAL_BLOCK && block.getRelative(BlockFace.EAST).getType() == Material.COAL_BLOCK && block.getRelative(BlockFace.WEST).getType() == Material.COAL_BLOCK;
     }
 }

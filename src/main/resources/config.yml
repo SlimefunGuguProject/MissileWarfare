@@ -1,9 +1,5 @@
 logging:
     logMissileShots: true
 
-other:
-    #How long until cleanup of armour stands (ticks)
-    cleanup-wait-time: 1200
-
 options:
   auto-update: true

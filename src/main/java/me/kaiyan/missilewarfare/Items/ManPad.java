@@ -34,7 +34,7 @@ public class ManPad extends SlimefunItem {
     private void itemUse(PlayerRightClickEvent event) {
         SlimefunItem manpad = event.getSlimefunItem().get();
         if (event.getPlayer().isSneaking()) {
-            event.getPlayer().sendMessage("Engaging Targeting Mode...");
+            event.getPlayer().sendMessage("瞄准模式...");
             new BukkitRunnable() {
                 public int scanLinepos = 0;
                 public boolean scanLineReturn = false;
@@ -43,9 +43,9 @@ public class ManPad extends SlimefunItem {
                 public void run() {
                     //check if changed weapon
                     if (!event.getSlimefunItem().isPresent()) {
-                        event.getPlayer().sendMessage("Canceled: Changed Item");
+                        event.getPlayer().sendMessage("取消操作: 更换手持物品");
                     } else if (event.getSlimefunItem().get() != manpad) {
-                        event.getPlayer().sendMessage("Canceled: Changed Item");
+                        event.getPlayer().sendMessage("取消操作: 更换手持物品");
                     }
                     MissileController lockedmissile = null;
                     //Get Missiles In Range
@@ -100,11 +100,11 @@ public class ManPad extends SlimefunItem {
                         }
                         scanline.append("]").color(ChatColor.WHITE);
                     } else {
-                        scanline.append("MissileType: " + VariantsAPI.getStrVariantFromInt(lockedmissile.type)).color(ChatColor.GOLD);
+                        scanline.append("导弹类型: " + VariantsAPI.getStrVariantFromInt(lockedmissile.type)).color(ChatColor.GOLD);
                         scanline.append("[");
                         scanline.append("XXX").color(ChatColor.RED);
                         scanline.append("]").color(ChatColor.WHITE);
-                        scanline.append("Dist: " + Math.round(event.getPlayer().getLocation().distance(lockedmissile.pos.toLocation(event.getPlayer().getWorld())))).color(ChatColor.GOLD);
+                        scanline.append("距离: " + Math.round(event.getPlayer().getLocation().distance(lockedmissile.pos.toLocation(event.getPlayer().getWorld())))).color(ChatColor.GOLD);
                         event.getPlayer().playNote(event.getPlayer().getLocation(), Instrument.STICKS, Note.flat(1, Note.Tone.E));
                         event.getPlayer().playNote(event.getPlayer().getLocation(), Instrument.GUITAR, Note.flat(1, Note.Tone.F));
                         event.getPlayer().playNote(event.getPlayer().getLocation(), Instrument.FLUTE, Note.flat(1, Note.Tone.E));
@@ -116,7 +116,7 @@ public class ManPad extends SlimefunItem {
                     // Check if sneaking
                     if (!event.getPlayer().isSneaking()) {
                         if (lockedmissile == null){
-                            event.getPlayer().sendMessage("Failed to fire: No Target");
+                            event.getPlayer().sendMessage("发射失败: 无目标");
                             this.cancel();
                         } else {
                             MissileController missile = new MissileController(false, event.getPlayer().getLocation().toVector(), lockedmissile.pos, 5, event.getPlayer().getWorld(), 3, 0, 1, event.getPlayer().getLocation().getDirection());
