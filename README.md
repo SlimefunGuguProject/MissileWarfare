@@ -10,4 +10,3 @@ Contacts:
 Coder/Creator: pain.#3884
 
 Wiki Editor: kiease#2203
-
