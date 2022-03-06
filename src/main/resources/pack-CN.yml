@@ -1,0 +1,333 @@
+ghghh ymissilegroupname: "&6导弹科技"
+translator: "haiman233"
+
+messages:
+    launchers:
+        createantiair:
+            success: "Created Anti Missile Launcher"
+            failure: "Missing Obsidian Below Launcher"
+        createantielytra:
+            success: "Created Anti Elytra Launcher"
+            failure: "Missing Obsidian Below Launcher"
+        ground:
+            create:
+                success: "Created Small Launcher!"
+                # Formatting: {type}
+                failure: "Below Block is type: {type} It needs Type GREEN_CONCRETE"
+            # Formatting: {xcoord} {ycoord} {dist}
+            coords: "The coords are: [{xcoord} , {ycoord}] And the DIST is: {dist}"
+            setting:
+                notanumber: "NOT A INTEGER NUMBER (No decimals)"
+                notacoord: "NOT A COORD"
+                cruisealt: "Cruise Alt: "
+
+    manpad:
+        locking: "Engaging Targeting Mode..."
+        itemchange: "Failed: Changed item"
+        notarget: "Failed to fire: No Target"
+
+    elytraattack:
+        locking: "!!!MISSILE LOCKING ON!!!"
+        locked: "!!!MISSILE LOCKED ON!!!"
+
+    radar: "Place a redstone ontop of this block to get its output, a repeater is required to get the one tick pulse"
+
+    playerlist:
+        resetkey: "Reset Key"
+        addedkey: "Added ID "
+        noid: "Couldn't add ID to the launcher, No ID assigned to this PlayerList"
+        askwriteprompt: "What player would you like to add? Say exit to exit"
+        addedplayer: "Added player"
+        invalidplayer: "INVALID PLAYER"
+        removeplayer: "What player would you like to remove?"
+        removedplayer: "Removed Player"
+        incorrectinput: "Incorrect Input"
+        asktoread: "Say 'read' to see the players associated with this ID, Say 'add' to add a player, Say 'remove' to remove a player, Say 'exit' to exit"
+        #INPUTS THE PLAYERLIST WILL TAKE IN AFTER SENDING ASKTOREAD
+        inputs:
+            read: "read"
+            add: "add"
+            remove: "remove"
+        askinputid: "Input ID to create, say exit to leave"
+        #FORMATTING: {id}
+        createdid: "Created ID : {id}, You can now write to it"
+        gottenid: "Gotten ID"
+
+materials:
+    sugarfuel:
+        name: "糖燃料"
+        lore:
+            - "便宜，高能量，非常适合小型导弹"
+    guidebook:
+        name: "导弹指南书"
+        lore:
+            - "你真的能看懂吗?!?"
+    explosivepowder:
+        name: "炸药粉"
+        lore:
+            - "小心轻放!"
+    compressedexplosives:
+        name: "固态炸药粉"
+        lore:
+            - "炸药粉被压缩成了固体"
+    ultraliteingot:
+        name: "超轻铸锭"
+        lore:
+            - "用于导弹的超轻型铸锭"
+    ultraliteplate:
+        name: "超轻铸板"
+        lore:
+            - "用于导弹的超轻型铸板"
+    simpleflightcomputer:
+        name: "基础飞行计算机"
+        lore:
+            - "能够引导导弹的简单计算机"
+    radar:
+        name: "雷达"
+        lore:
+            - "引导防空导弹时使用"
+    rocketfuel:
+        name: "火箭燃料"
+        lore:
+            - "以1000个煤的功率燃烧..."
+    smallwarhead:
+        name: "基础导弹弹头"
+        lore:
+            - "用于制造导弹."
+            - "'请勿触碰红色部分'"
+    smallbody:
+        name: "基础导弹体"
+        lore:
+            - "用于制造导弹"
+            - "'请勿削弱防护层'"
+    smallfin:
+        name: "基础导弹鳍"
+        lore:
+            - "用于制造导弹"
+    missilebody:
+        name: "导弹体"
+        lore:
+            - "内含飞行计算机的导弹体"
+    missilefins:
+        name: "导弹鳍"
+        lore:
+            - "它能够更好地移动和引导导弹"
+    warhead:
+        name: "Missile Warhead"
+        lore:
+            - "Used in creation of a missile."
+            - "'Potato-be-gone'"
+    reinforcedwarhead:
+        name: "Reinforced Warhead"
+        lore:
+            - "Used to create AP Missiles"
+            - "'Bunker-be-Gone'"
+    chlorine:
+        name: "Chlorine"
+        lore:
+            - "Poisonous"
+            - "Causes a slow and painful death!"
+    chlorinepellet:
+        name: "Chlorine Pellet"
+        lore:
+            - "A pellet of Chlorine"
+    advancedbody:
+        name: "Advanced Missile Body"
+        lore:
+            - "An upgraded version ofthe missile body"
+    heavywarhead:
+        name: "Heavy Warhead"
+        lore:
+            - "A warhead packed with heavy explosives"
+    icbmbody:
+        name: "ICBM Body"
+        lore:
+            - "Engineered to perfection, Sleek, Deadly."
+            - "Uranium added for a cool glow effect"
+            - "The body of the ICBM missile"
+    mine:
+        name: "Mine"
+        lore:
+            - "Will it work on tanks?"
+
+
+missiles:
+    smallmissile:
+        lore: "小型地对地导弹"
+        missiles:
+            normal:
+                name: "小型地对地导弹"
+                variant: "无变种"
+                lore: "'小Timmy从来没有机会...'"
+            he:
+                name: "小型地对地导弹 - 高爆"
+                variant: "高爆变种"
+                lore: "'大Timmy从来没有机会...'"
+            lr:
+                name: "小型地对地导弹 - 远距离"
+                variant: "远距离变种"
+                lore: "'遥远的Timmy从来没有机会'"
+            ac:
+                name: "小型地对地导弹 - 高精度"
+                variant: "高精度变种"
+                lore: "'小Timmy从来没有机会'"
+    anti-missiles:
+        lore: "防空导弹"
+        missiles:
+            missile:
+                name: "防空导弹"
+                variant: "反弹道变种"
+                lore: "'Timmy的烟火表演取消了'"
+            elytra:
+                name: "防空导弹"
+                variant: "反鞘翅变种"
+                lore: "'空中的Timmy从来没有机会'"
+    normalmissile:
+        lore: "地对地导弹"
+        missiles:
+            normal:
+                name: "地对地导弹"
+                variant: "无变种"
+                lore: "'Your friendly neighbourhood missile'"
+            he:
+                name: "地对地导弹 - 高爆"
+                variant: "高爆变种"
+                lore: "'Your not-so friendly neighbourhood missile'"
+            lr:
+                name: "地对地导弹 - 远距离"
+                variant: "远距离变种"
+                lore: "'Your friendly city missile'"
+            ac:
+                name: "地对地导弹 - 高精度"
+                variant: "高精度变种"
+                lore: "'Your friendly room-clearing missile'"
+    armourpiercing:
+        lore: "地对地钻地导弹"
+        missiles:
+            tierone:
+                name: "地对地钻地导弹"
+                variant: "1级钻地弹"
+                lore:
+                    - "Goes through 1 block before exploding"
+                    - "Wont go through obsidian"
+                    - "'Your basement isnt safe for long!'"
+            tiertwo:
+                name: "地对地钻地导弹"
+                variant: "2级钻地弹"
+                lore:
+                    - "Goes through 1 block before exploding"
+                    - "50% Chance to go through obsidian"
+                    - "10% chance to break the hit obsidian"
+                    - "'Your bunker isnt safe for long!'"
+            tierthree:
+                name: "地对地钻地导弹"
+                variant: "3级钻地弹"
+                lore:
+                    - Goes through 2 block before exploding"
+                    - "75% Chance to go through obsidian"
+                    - "20% chance to break the hit obsidian"
+                    - "'Your bunker definitely isnt safe for long!'"
+    advanced:
+        lore: "高级地对地导弹"
+        missiles:
+            normal:
+                name: "GtG Advanced Missile"
+                variant: "Normal Variant"
+                lore: "'Powered by AI (technically)'"
+            he:
+                name: "GtG Advanced Missile HE"
+                variant: "High Explosive Variant"
+                lore: "'Very dangerous, do not touche'"
+            lr:
+                name: "GtG Advanced Missile LR"
+                variant: "Long Range Variant"
+                lore: "'Im running out of lore ideas'"
+            ac:
+                name: "GtG Advanced Missile AC"
+                variant: "Accurate Variant"
+                lore: "'Pretty accurate i guess'"
+
+specialmissiles:
+    gasmissile:
+        name: "Gas Missile"
+        lore:
+            - "Cleaning Missile"
+            - "Deploys poisonous gas on hitting a target"
+        afterlore: "'Commit Timmycide.'"
+    excavmissile:
+        name: "Excavation Missile"
+        lore:
+            - "Utility Missile"
+            - "Has a large explosion radius but little damage"
+            - "Used for mining"
+        afterlore: "'Better than a 100 Pickaxes!'"
+    stickymissile:
+        name: "Sticky Missile"
+        lore:
+            - "Trap Missile"
+            - "A small explosion that releases cobwebs"
+        afterlore: "'Dont ask what its made of.'"
+    icbm:
+        name: "ICBM Missile"
+        lore:
+            - "Long-Range Missile"
+            - "Inter-Continental Ballistic Missile"
+        afterlore:
+            - "'Nowhere is safe.'"
+    clustermissile:
+        name: "Cluster Missile"
+        lore:
+            - "Cluster Missile, Deploys many missiles before hitting"
+        afterlore:
+            - "'Removes villages faster than you can scream!'"
+    napalmmissile:
+        name: "Napalm Missile"
+        lore:
+            - "Fire Missile"
+            - "Napalm Missile, Throws fire everywhere upon hit."
+        afterlore:
+            - "'Kindergarten Remover! Tried and tested™'"
+
+
+launchers:
+    ground:
+        name: "地对地导弹发射台"
+        lore:
+            - "Shoots a specified area on the ground."
+            - "Use a stick to set target coords"
+            - "Shift with a stick to check if it can fire"
+            - "Right click with a blaze rod to set cruise alt"
+            - "Default cruise alt is Y:120"
+            - "Needs to be built on 1 green concrete block."
+    antimissile:
+        name: "反弹道导弹发射台"
+        lore:
+            - "Targets and shoots down other missiles in the area."
+            - "Use redstone to disable it"
+            - "Needs to be built on obsidian"
+            - "Needs Anti-Missile Missiles"
+    antielytra:
+        name: "反鞘翅导弹发射台"
+        lore:
+            - "Fires a missile at nearby player"
+            - "that are using an elytra"
+            - "Excluding those on the"
+            - "ID assigned to this"
+            - "use a stick to set the group ID"
+            - "Needs Anti-Elytra Missiles"
+
+other:
+    manpad:
+        name: "便携式防空导弹"
+        lore:
+            - "Handheld anti-missile device"
+            - "Shift+RMB to begin tracking"
+            - "Release Shift fire"
+    playerlist:
+        name: Player List
+        lore:
+            - "Right Click to set the players"
+            - "for a ID"
+            - "THESE ID'S ARE GLOBAL"
+            - "ANYONE CAN EDIT THEM IF"
+            - "THEY HAVE THE ID"
