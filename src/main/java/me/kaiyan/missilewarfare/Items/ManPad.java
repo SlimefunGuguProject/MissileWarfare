@@ -104,11 +104,11 @@ public class ManPad extends SlimefunItem {
                         }
                         scanline.append("]").color(ChatColor.WHITE);
                     } else {
-                        scanline.append("MissileType: " + VariantsAPI.getStrVariantFromInt(lockedmissile.type)).color(ChatColor.GOLD);
+                        scanline.append("导弹类型: " + VariantsAPI.getStrVariantFromInt(lockedmissile.type)).color(ChatColor.GOLD);
                         scanline.append("[");
                         scanline.append("XXX").color(ChatColor.RED);
                         scanline.append("]").color(ChatColor.WHITE);
-                        scanline.append("Dist: " + Math.round(event.getPlayer().getLocation().distance(lockedmissile.pos.toLocation(event.getPlayer().getWorld())))).color(ChatColor.GOLD);
+                        scanline.append("距离: " + Math.round(event.getPlayer().getLocation().distance(lockedmissile.pos.toLocation(event.getPlayer().getWorld())))).color(ChatColor.GOLD);
                         event.getPlayer().playNote(event.getPlayer().getLocation(), Instrument.STICKS, Note.flat(1, Note.Tone.E));
                         event.getPlayer().playNote(event.getPlayer().getLocation(), Instrument.GUITAR, Note.flat(1, Note.Tone.F));
                         event.getPlayer().playNote(event.getPlayer().getLocation(), Instrument.FLUTE, Note.flat(1, Note.Tone.E));

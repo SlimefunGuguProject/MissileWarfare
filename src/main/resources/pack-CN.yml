@@ -19,26 +19,26 @@ messages:
             setting:
                 notanumber: "&c不是一个整数 (不支持小数)"
                 notacoord: "&c无效的坐标"
-                cruisealt: "Cruise Alt: "
+                cruisealt: "巡航高度(Y): "
 
     manpad:
-        locking: "Engaging Targeting Mode..."
-        itemchange: "Failed: Changed item"
-        notarget: "Failed to fire: No Target"
+        locking: "进入目标锁定模式..."
+        itemchange: "失败: 物品已切换"
+        notarget: "发射失败: 没有目标"
 
     elytraattack:
-        locking: "!!!MISSILE LOCKING ON!!!"
-        locked: "!!!MISSILE LOCKED ON!!!"
+        locking: "!!!正在被导弹锁定!!!"
+        locked: "!!!已被导弹锁定!!!"
 
-    radar: "Place a redstone ontop of this block to get its output, a repeater is required to get the one tick pulse"
+    radar: "方块上方放置一个红石粉来获取红石信号，需要使用中继器来捕获脉冲信号"
 
     playerlist:
         resetkey: "Reset Key"
-        addedkey: "Added ID "
+        addedkey: "已经添加 ID "
         noid: "Couldn't add ID to the launcher, No ID assigned to this PlayerList"
         askwriteprompt: "What player would you like to add? Say exit to exit"
         addedplayer: "Added player"
-        invalidplayer: "INVALID PLAYER"
+        invalidplayer: "无效的玩家"
         removeplayer: "What player would you like to remove?"
         removedplayer: "Removed Player"
         incorrectinput: "Incorrect Input"
@@ -91,17 +91,17 @@ materials:
         lore:
             - "以1000个煤的功率燃烧..."
     smallwarhead:
-        name: "基础导弹弹头"
+        name: "小型导弹弹头"
         lore:
             - "用于制造导弹."
             - "'请勿触碰红色部分'"
     smallbody:
-        name: "基础导弹体"
+        name: "小型导弹体"
         lore:
             - "用于制造导弹"
             - "'请勿削弱防护层'"
     smallfin:
-        name: "基础导弹鳍"
+        name: "小型导弹鳍"
         lore:
             - "用于制造导弹"
     missilebody:
@@ -113,106 +113,106 @@ materials:
         lore:
             - "它能够更好地移动和引导导弹"
     warhead:
-        name: "Missile Warhead"
+        name: "导弹弹头"
         lore:
-            - "Used in creation of a missile."
-            - "'Potato-be-gone'"
+            - "用于制作导弹"
+            - "'消失的土豆'"
     reinforcedwarhead:
-        name: "Reinforced Warhead"
+        name: "增强型导弹弹头"
         lore:
-            - "Used to create AP Missiles"
-            - "'Bunker-be-Gone'"
+            - "用于制作钻地导弹"
+            - "'消失的堡垒'"
     chlorine:
-        name: "Chlorine"
+        name: "氯气"
         lore:
-            - "Poisonous"
-            - "Causes a slow and painful death!"
+            - "有毒"
+            - "缓慢而痛苦地死去"
     chlorinepellet:
-        name: "Chlorine Pellet"
+        name: "氯气弹"
         lore:
-            - "A pellet of Chlorine"
+            - "一枚氯气弹"
     advancedbody:
-        name: "Advanced Missile Body"
+        name: "增强型导弹体"
         lore:
-            - "An upgraded version ofthe missile body"
+            - "升级后的导弹体"
     heavywarhead:
-        name: "Heavy Warhead"
+        name: "重型导弹弹头"
         lore:
             - "A warhead packed with heavy explosives"
     icbmbody:
-        name: "ICBM Body"
+        name: "洲际弹道导弹体"
         lore:
             - "Engineered to perfection, Sleek, Deadly."
             - "Uranium added for a cool glow effect"
             - "The body of the ICBM missile"
     mine:
-        name: "Mine"
+        name: "地雷"
         lore:
-            - "Will it work on tanks?"
+            - "对坦克有用么?"
 
 
 missiles:
     smallmissile:
-        lore: "小型地对地导弹"
+        lore: "小型对地导弹"
         missiles:
             normal:
-                name: "小型地对地导弹"
-                variant: "无变种"
+                name: "小型对地导弹"
+                variant: "普通"
                 lore: "'小Timmy从来没有机会...'"
             he:
-                name: "小型地对地导弹 - 高爆"
-                variant: "高爆变种"
+                name: "小型对地导弹 - 高爆"
+                variant: "高爆"
                 lore: "'大Timmy从来没有机会...'"
             lr:
-                name: "小型地对地导弹 - 远距离"
-                variant: "远距离变种"
+                name: "小型对地导弹 - 远距离"
+                variant: "远距离"
                 lore: "'遥远的Timmy从来没有机会'"
             ac:
-                name: "小型地对地导弹 - 高精度"
-                variant: "高精度变种"
+                name: "小型对地导弹 - 高精度"
+                variant: "高精度"
                 lore: "'小Timmy从来没有机会'"
     anti-missiles:
         lore: "防空导弹"
         missiles:
             missile:
                 name: "防空导弹"
-                variant: "反弹道变种"
+                variant: "反弹道"
                 lore: "'Timmy的烟火表演取消了'"
             elytra:
                 name: "防空导弹"
-                variant: "反鞘翅变种"
+                variant: "反鞘翅"
                 lore: "'空中的Timmy从来没有机会'"
     normalmissile:
         lore: "地对地导弹"
         missiles:
             normal:
                 name: "地对地导弹"
-                variant: "无变种"
+                variant: "普通"
                 lore: "'Your friendly neighbourhood missile'"
             he:
                 name: "地对地导弹 - 高爆"
-                variant: "高爆变种"
+                variant: "高爆"
                 lore: "'Your not-so friendly neighbourhood missile'"
             lr:
                 name: "地对地导弹 - 远距离"
-                variant: "远距离变种"
+                variant: "远距离"
                 lore: "'Your friendly city missile'"
             ac:
                 name: "地对地导弹 - 高精度"
-                variant: "高精度变种"
+                variant: "高精度"
                 lore: "'Your friendly room-clearing missile'"
     armourpiercing:
-        lore: "地对地钻地导弹"
+        lore: "钻地导弹"
         missiles:
             tierone:
-                name: "地对地钻地导弹"
+                name: "钻地导弹"
                 variant: "1级钻地弹"
                 lore:
                     - "Goes through 1 block before exploding"
                     - "Wont go through obsidian"
                     - "'Your basement isnt safe for long!'"
             tiertwo:
-                name: "地对地钻地导弹"
+                name: "钻地导弹"
                 variant: "2级钻地弹"
                 lore:
                     - "Goes through 1 block before exploding"
@@ -220,7 +220,7 @@ missiles:
                     - "10% chance to break the hit obsidian"
                     - "'Your bunker isnt safe for long!'"
             tierthree:
-                name: "地对地钻地导弹"
+                name: "钻地导弹"
                 variant: "3级钻地弹"
                 lore:
                     - Goes through 2 block before exploding"
@@ -228,7 +228,7 @@ missiles:
                     - "20% chance to break the hit obsidian"
                     - "'Your bunker definitely isnt safe for long!'"
     advanced:
-        lore: "高级地对地导弹"
+        lore: "高级对地导弹"
         missiles:
             normal:
                 name: "GtG Advanced Missile"

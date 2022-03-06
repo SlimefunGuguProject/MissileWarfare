@@ -136,7 +136,7 @@ public class ElytraMissileController {
         } else {
             ComponentBuilder builder = new ComponentBuilder("");
 
-            builder.append("!! MISSILE INCOMING !!").bold(true).color(ChatColor.DARK_RED);
+            builder.append("!! 导弹来袭 !!").bold(true).color(ChatColor.DARK_RED);
 
             player.spigot().sendMessage(ChatMessageType.ACTION_BAR, builder.create());
         }

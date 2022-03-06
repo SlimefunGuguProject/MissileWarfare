@@ -125,7 +125,7 @@ public class PlayerList extends SlimefunItem {
                     String add = Translations.get("messages.playerlist.inputs.add");
                     String remove = Translations.get("messages.playerlist.inputs.remove");
                     if (s.equals(read)) {
-                        String out = "Players: ";
+                        String out = "玩家: ";
                         List<String> players = new ArrayList<>();
                         for (OfflinePlayer player : PlayerID.players.get(cont.get(key, PersistentDataType.STRING))) {
                             players.add(player.getName());
@@ -174,19 +174,19 @@ public class PlayerList extends SlimefunItem {
             if (cont.get(key, PersistentDataType.STRING) == null) {
                 ConversationFactory cf = new ConversationFactory(MissileWarfare.getInstance());
                 Conversation conversation = cf.withFirstPrompt(askForID)
-                        .withLocalEcho(false)
-                        .withEscapeSequence("exit")
-                        .withTimeout(20)
-                        .buildConversation(event.getPlayer());
+                    .withLocalEcho(false)
+                    .withEscapeSequence("exit")
+                    .withTimeout(20)
+                    .buildConversation(event.getPlayer());
                 conversation.begin();
                 event.cancel();
             } else {
                 ConversationFactory cf = new ConversationFactory(MissileWarfare.getInstance());
                 Conversation conversation = cf.withFirstPrompt(askToRead)
-                        .withLocalEcho(false)
-                        .withEscapeSequence("exit")
-                        .withTimeout(20)
-                        .buildConversation(event.getPlayer());
+                    .withLocalEcho(false)
+                    .withEscapeSequence("exit")
+                    .withTimeout(20)
+                    .buildConversation(event.getPlayer());
                 conversation.begin();
                 event.cancel();
             }

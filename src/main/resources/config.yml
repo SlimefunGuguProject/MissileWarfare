@@ -1,3 +1,4 @@
+# 导弹设置
 missiles:
     SMALLMISSILE:
         speed: 2
@@ -131,6 +132,7 @@ saved-packs:
 
 # 日志记录
 logging:
+    # 记录导弹发射
     logMissileShots: true
 
 options:

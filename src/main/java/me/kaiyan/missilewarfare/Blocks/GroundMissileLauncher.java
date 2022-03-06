@@ -109,7 +109,7 @@ public class GroundMissileLauncher extends SlimefunItem{
                     Prompt askCoordY = new StringPrompt() {
                         @Override
                         public String getPromptText(ConversationContext conversationContext) {
-                            return "Input Coordinates Z, Input exit to cancel";
+                            return "输入Z坐标，输入exit以取消设置";
                         }
 
                         @Override
@@ -131,7 +131,7 @@ public class GroundMissileLauncher extends SlimefunItem{
                     Prompt askCoordX = new StringPrompt() {
                         @Override
                         public String getPromptText(ConversationContext conversationContext) {
-                            return "Input Coordinates X, Input exit to cancel";
+                            return "输入X坐标，输入exit以取消设置";
                         }
 
                         @Override
@@ -151,10 +151,10 @@ public class GroundMissileLauncher extends SlimefunItem{
 
                     ConversationFactory cf = new ConversationFactory(MissileWarfare.getInstance());
                     Conversation conversation = cf.withFirstPrompt(askCoordX)
-                            .withLocalEcho(false)
-                            .withEscapeSequence("exit")
-                            .withTimeout(20)
-                            .buildConversation(event.getPlayer());
+                        .withLocalEcho(false)
+                        .withEscapeSequence("exit")
+                        .withTimeout(20)
+                        .buildConversation(event.getPlayer());
                     conversation.begin();
                     cont.set(new NamespacedKey(MissileWarfare.getInstance(), "Conversing"), PersistentDataType.INTEGER, 1);
                 }
@@ -172,7 +172,7 @@ public class GroundMissileLauncher extends SlimefunItem{
                     Prompt askCruiseAlt = new StringPrompt() {
                         @Override
                         public String getPromptText(ConversationContext conversationContext) {
-                            return "Input Cruise Altitude, Input exit to cancel";
+                            return "输入巡航高度(Y)，输入exit以取消设置";
                         }
 
                         @Override
@@ -193,10 +193,10 @@ public class GroundMissileLauncher extends SlimefunItem{
                     };
                     ConversationFactory cf = new ConversationFactory(MissileWarfare.getInstance());
                     Conversation conversation = cf.withFirstPrompt(askCruiseAlt)
-                            .withLocalEcho(false)
-                            .withEscapeSequence("exit")
-                            .withTimeout(20)
-                            .buildConversation(event.getPlayer());
+                        .withLocalEcho(false)
+                        .withEscapeSequence("exit")
+                        .withTimeout(20)
+                        .buildConversation(event.getPlayer());
                     conversation.begin();
                 }
             } catch (NullPointerException e){
@@ -258,10 +258,10 @@ public class GroundMissileLauncher extends SlimefunItem{
         int[] coords = cont.get(new NamespacedKey(MissileWarfare.getInstance(), "coords"), PersistentDataType.INTEGER_ARRAY);
         Integer alt = cont.get(new NamespacedKey(MissileWarfare.getInstance(), "alt"), PersistentDataType.INTEGER);
         if (coords == null) {
-            MissileWarfare.getInstance().getServer().broadcastMessage("Missile cannot fire at : "+new Vector(disp.getBlock().getLocation().getX(), disp.getBlock().getLocation().getY(), disp.getBlock().getLocation().getZ()) + " Invalid Coordinates!");
+            MissileWarfare.getInstance().getServer().broadcastMessage("导弹无法发射，位于: "+new Vector(disp.getBlock().getLocation().getX(), disp.getBlock().getLocation().getY(), disp.getBlock().getLocation().getZ()) + " 无效坐标!");
             return false;
         } else if (VariantsAPI.isInRange((int) disp.getLocation().distanceSquared(new Vector(coords[0], 0, coords[1]).toLocation(disp.getWorld())), missile.type)){
-            MissileWarfare.getInstance().getServer().broadcastMessage("Missile cannot fire at : "+disp.getBlock().getLocation() + " Target out of distance!");
+            MissileWarfare.getInstance().getServer().broadcastMessage("导弹无法发射，位于: "+disp.getBlock().getLocation() + " 目标位置超出射程!");
             return false;
         }
         if (alt == null){
@@ -277,7 +277,7 @@ public class GroundMissileLauncher extends SlimefunItem{
                     result = p;
                 }
             }
-            MissileWarfare.getInstance().getLogger().info("Missile Shot || Location: "+disp.getBlock().getLocation()+" Target: "+new Vector(coords[0], 0, coords[1])+" Nearest Player: "+result.getName());
+            MissileWarfare.getInstance().getLogger().info("导弹发射 || 位于: "+disp.getBlock().getLocation()+" 目标: "+new Vector(coords[0], 0, coords[1])+" 附近玩家: "+result.getName());
         }
         MissileController _missile = new MissileController(true, disp.getBlock().getLocation().add(new Vector(0.5, 1.35, 0.5)).toVector(), new Vector(coords[0], 0, coords[1]), (float) missile.speed, disp.getBlock().getWorld(), missile.power, missile.accuracy, missile.type, alt);
         _missile.FireMissile();

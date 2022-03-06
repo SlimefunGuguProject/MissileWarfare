@@ -21,7 +21,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class MissileRadar extends SlimefunItem {
     public MissileRadar(ItemGroup itemGroup, ItemStack[] recipe) {
-        super(itemGroup, new SlimefunItemStack("MISSILERADAR", Material.GRAY_WOOL, "Missile Radar", "Emits a redstone signal when a missile is", "within 700 blocks"), RecipeType.ENHANCED_CRAFTING_TABLE, recipe);
+        super(itemGroup, new SlimefunItemStack("MISSILERADAR", Material.GRAY_WOOL, "导弹雷达", "当700格范围内有导弹来袭时", "发出红石信号"), RecipeType.ENHANCED_CRAFTING_TABLE, recipe);
     }
 
     @Override
