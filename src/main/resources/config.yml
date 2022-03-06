@@ -119,13 +119,17 @@ mine:
     # Amount of random damage to apply to the receiving player
     maxranddamage: 10
 
-#set this to the name of a pack in the /lang folder without a .yml
-translation-pack: pack-EN
-#Dont edit, imports lang packs on first start
+# 在 lang 文件夹中可以找到相应的翻译
+# 在此填入不带后缀的文件名
+translation-pack: pack-CN
+
+# 不要改动该选项，将在第一次启动后生成语言文件
 saved-packs:
     - pack-EN
     - pack-NL
+    - pack-CN
 
+# 日志记录
 logging:
     logMissileShots: true
 

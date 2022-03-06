@@ -1,24 +1,24 @@
-ghghh ymissilegroupname: "&6导弹科技"
-translator: "haiman233"
+missilegroupname: "&6导弹科技"
+translator: "haiman233, ybw0014"
 
 messages:
     launchers:
         createantiair:
-            success: "Created Anti Missile Launcher"
-            failure: "Missing Obsidian Below Launcher"
+            success: "&a已创建反弹道导弹发射井"
+            failure: "&c发射井下方必须为黑曜石"
         createantielytra:
-            success: "Created Anti Elytra Launcher"
-            failure: "Missing Obsidian Below Launcher"
+            success: "&a已创建防空导弹发射井"
+            failure: "&c发射井下方必须为黑曜石"
         ground:
             create:
-                success: "Created Small Launcher!"
+                success: "已创建小型导弹发射井"
                 # Formatting: {type}
-                failure: "Below Block is type: {type} It needs Type GREEN_CONCRETE"
+                failure: "发射井下方必须为绿色混凝土"
             # Formatting: {xcoord} {ycoord} {dist}
-            coords: "The coords are: [{xcoord} , {ycoord}] And the DIST is: {dist}"
+            coords: "目标坐标为: [{xcoord} , {ycoord}] 距离: {dist}"
             setting:
-                notanumber: "NOT A INTEGER NUMBER (No decimals)"
-                notacoord: "NOT A COORD"
+                notanumber: "&c不是一个整数 (不支持小数)"
+                notacoord: "&c无效的坐标"
                 cruisealt: "Cruise Alt: "
 
     manpad:
