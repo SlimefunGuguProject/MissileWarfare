@@ -3,15 +3,18 @@ package me.kaiyan.missilewarfare.Missiles;
 
 import me.kaiyan.missilewarfare.MissileWarfare;
 import me.kaiyan.missilewarfare.VariantsAPI;
-import org.bukkit.Material;
-import org.bukkit.Particle;
-import org.bukkit.World;
+import org.bukkit.*;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitTask;
+import org.bukkit.util.RayTraceResult;
 import org.bukkit.util.Vector;
 
 import java.util.Random;
@@ -20,15 +23,17 @@ public class MissileController {
     public boolean isgroundmissile;
     public Vector pos;
     public Vector target;
-    public float speed;
+    public double speed;
     public World world;
     public double power;
     public boolean launched;
     public int type;
     public Vector dir;
-    public BukkitTask update;
+    public BukkitRunnable update;
     public int cruiseAlt;
     public Entity armourStand;
+    public int blockcount = 0;
+    public boolean deployedCluster = false;
 
     public MissileController(boolean isgroundmissile, Vector startpos, Vector target, float speed, World world, double power, float accuracy, int type, int cruiseAlt){
         this.isgroundmissile = isgroundmissile;
@@ -51,11 +56,14 @@ public class MissileController {
         ((LivingEntity) armourStand).getEquipment().setHelmet(new ItemStack(Material.GREEN_CONCRETE));
         armourStand.setGravity(false);
         ((LivingEntity) armourStand).setInvisible(true);
+        armourStand.setCustomName("MissileHolder");
         //((LivingEntity) armorStand).addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, Integer.MAX_VALUE, 1, true, false));
 
-        MissileWarfare.activemissiles.add(this);
+        if (type != 17){
+            deployedCluster = true;
+        }
 
-        System.out.println("目标:"+ this.target);
+        MissileWarfare.activemissiles.add(this);
     }
     public MissileController(boolean isgroundmissile, Vector startpos, Vector target, float speed, World world, double power, float accuracy, int type, Vector dir){
         this.isgroundmissile = isgroundmissile;
@@ -70,6 +78,12 @@ public class MissileController {
 
         this.target = target;
         this.dir = dir;
+
+        if (type != 17){
+            deployedCluster = true;
+        }
+
+        MissileWarfare.activemissiles.add(this);
     }
 
     public void FireMissile(){
@@ -80,7 +94,8 @@ public class MissileController {
                 public void run() {
                     Update(this);
                 }
-            }.runTaskTimer(MissileWarfare.getInstance(), 20, 2);
+            };
+            update.runTaskTimer(MissileWarfare.getInstance(), 20, 2);
         }
     }
     public void FireMissileAtMissile(MissileController other){
@@ -90,7 +105,8 @@ public class MissileController {
             public void run() {
                 Update(this, other);
             }
-        }.runTaskTimer(MissileWarfare.getInstance(), 5, 2);
+        };
+        update.runTaskTimer(MissileWarfare.getInstance(), 5, 2);
     }
 
     public void Update(BukkitRunnable run){
@@ -98,17 +114,71 @@ public class MissileController {
         pos.add(velocity);
         armourStand.teleport(pos.toLocation(world).clone().subtract(new Vector(0, 1.75, 0)));
         VariantsAPI.spawnMissileTrail(world, type, pos, velocity);
+        Random rand = new Random();
         if (world.getBlockAt(pos.toLocation(world)).getType() != Material.AIR) {
-            for (int i = 0; i < 150; i++) {
-                world.spawnParticle(Particle.CAMPFIRE_SIGNAL_SMOKE, pos.toLocation(world), 0, Math.random()-0.5, Math.random()*2, Math.random()-0.5, 0.25, null, true);
-                world.spawnParticle(Particle.FLAME, pos.toLocation(world), 0, Math.random()-0.5, Math.random()*2, Math.random()-0.5, 0.25, null, true);
-                world.spawnParticle(Particle.CAMPFIRE_SIGNAL_SMOKE, pos.toLocation(world), 0, Math.random()-0.5, Math.random()*0.5, Math.random()-0.5, 0.15, null, true);
-                world.spawnParticle(Particle.FLAME, pos.toLocation(world), 0, (Math.random()*2)-0.5, Math.random()*1.5, (Math.random()*2)-0.5, 0.25, null, true);
+            if (type == 10) {
+                //<editor-fold desc="APT1">
+                if (blockcount >= 1 || world.getBlockAt(pos.toLocation(world)).getType() == Material.OBSIDIAN) {
+                    explode(run);
+                }
+                blockcount++;
+                //</editor-fold>
             }
-            world.createExplosion(pos.toLocation(world), (float) power);
-            armourStand.remove();
-            run.cancel();
-            MissileWarfare.activemissiles.remove(this);
+            else if (type == 11){
+                //<editor-fold desc="APT2">
+                if (world.getBlockAt(pos.toLocation(world)).getType() == Material.OBSIDIAN && rand.nextBoolean()){
+                    explode(run);
+                }
+                if (rand.nextDouble() < 0.1){
+                    world.getBlockAt(pos.toLocation(world)).setType(Material.AIR);
+                    explode(run);
+                }
+                if (blockcount >= 1) {
+                    explode(run);
+                }
+                blockcount++;
+                //</editor-fold>
+            }
+            else if (type == 12){
+                //<editor-fold desc="APT3">
+                if (blockcount >= 2) {
+                    explode(run);
+                }
+                if (world.getBlockAt(pos.toLocation(world)).getType() == Material.OBSIDIAN && rand.nextDouble() < 0.75){
+                    explode(run);
+                }
+                if (rand.nextDouble() < 0.25){
+                    world.getBlockAt(pos.toLocation(world)).setType(Material.AIR);
+                    explode(run);
+                }
+                blockcount++;
+                //</editor-fold>
+            }
+            else if (type == 13){
+                //<editor-fold desc="GASMISSILE">
+                new BukkitRunnable() {
+                    int loops = 0;
+                    @Override
+                    public void run() {
+                        world.spawnParticle(Particle.REDSTONE, pos.toLocation(world), 5,5, 3, 5, new Particle.DustOptions(Color.fromRGB(0, 255, 0), 20f));
+                        for (Player player : world.getPlayers()){
+                            if (player.getLocation().toVector().isInSphere(pos, 6)) {
+                                player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 80, 3));
+                                player.damage(0.25);
+                            }
+                        }
+                        if (loops >= 400){
+                            this.cancel();
+                        }
+                        loops++;
+                    }
+                }.runTaskTimer(MissileWarfare.getInstance(), 0, 1);
+                explode(run);
+                //</editor-fold>
+            }
+            else {
+                explode(run);
+            }
         }
     }
     public void Update(BukkitRunnable run, MissileController other){
@@ -118,21 +188,94 @@ public class MissileController {
         world.spawnParticle(Particle.CAMPFIRE_COSY_SMOKE, pos.toLocation(world), 0, 0, 0, 0, 0.1, null, true);
         world.spawnParticle(Particle.CAMPFIRE_COSY_SMOKE, (pos.toLocation(world).subtract(velocity.divide(new Vector(2,2,2)))), 0, 0, 0, 0, 0.1, null, true);
         if (target.distanceSquared(pos) < (speed*speed)*1.1){
-            world.createExplosion(pos.toLocation(world), (float) power);
+            if (other == null){
+                run.cancel();
+            }
+            world.createExplosion(pos.toLocation(world), (float) power, false, true, armourStand);
             for (int i = 0; i < 40; i++) {
                 world.spawnParticle(Particle.CAMPFIRE_COSY_SMOKE, pos.toLocation(world), 0, Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5, 0.1, null, true);
                 world.spawnParticle(Particle.FLAME, pos.toLocation(world), 0, Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5, 0.1, null,true);
             }
             if (other.update != null) {
-                other.update.cancel();
+                other.explode(other.update);
+                run.cancel();
             }
-            other.armourStand.remove();
-            MissileWarfare.activemissiles.remove(other);
-            run.cancel();
         }
         if (world.getBlockAt(pos.toLocation(world)).getType() != Material.AIR) {
-            world.createExplosion(pos.toLocation(world), (float) power);
+            world.createExplosion(pos.toLocation(world), (float) power, false, true, armourStand);
         }
+    }
+
+    public void explode(BukkitRunnable run){
+        for (int i = 0; i < 100; i++) {
+            world.spawnParticle(Particle.CAMPFIRE_SIGNAL_SMOKE, pos.toLocation(world), 0, Math.random() - 0.5, Math.random() * 2, Math.random() - 0.5, 0.25, null, true);
+            world.spawnParticle(Particle.FLAME, pos.toLocation(world), 0, Math.random() - 0.5, Math.random() * 2, Math.random() - 0.5, 0.25, null, true);
+        }
+        world.createExplosion(pos.toLocation(world).add(new Vector(0,1,0)), (float) power, false, true, armourStand);
+        Random rand = new Random();
+        if (type == 15){
+            for (int i = 0; i < 50; i++){
+                Vector dir = new Vector((rand.nextFloat()-0.5)*2, (rand.nextFloat()-0.5)*2, (rand.nextFloat()-0.5)*2);
+                RayTraceResult result = world.rayTraceBlocks(pos.toLocation(world).add(0,3,0), dir, 10, FluidCollisionMode.ALWAYS, true);
+                if (result != null) {
+                    Block hitblock = result.getHitBlock();
+                    hitblock.getRelative(result.getHitBlockFace()).setType(Material.COBWEB);
+                } else {
+                    Vector hit = dir.clone();
+                    for (int _i = 0; _i < 10; _i++){
+                        hit.subtract(new Vector(0,1,0));
+                        if (world.getBlockAt(hit.toLocation(world)) != null){
+                            Block hitblock = world.getBlockAt(hit.toLocation(world));
+                            hitblock.getRelative(BlockFace.UP).setType(Material.COBWEB);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        else if (type == 18){
+            //Lava
+            for (int i = 0; i < 2; i++){
+                Vector dir = new Vector((rand.nextFloat()-0.5)*2, (rand.nextFloat()-0.5)*2, (rand.nextFloat()-0.5)*2);
+                RayTraceResult result = world.rayTraceBlocks(pos.toLocation(world).add(0,3,0), dir, 10, FluidCollisionMode.ALWAYS, true);
+                if (result != null) {
+                    Block hitblock = result.getHitBlock();
+                    hitblock.getRelative(result.getHitBlockFace()).setType(Material.LAVA);
+                } else {
+                    Vector hit = dir.clone();
+                    for (int _i = 0; _i < 20; _i++){
+                        hit.subtract(new Vector(0,1,0));
+                        if (world.getBlockAt(hit.toLocation(world)) != null){
+                            Block hitblock = world.getBlockAt(hit.toLocation(world));
+                            hitblock.getRelative(BlockFace.UP).setType(Material.LAVA);
+                            break;
+                        }
+                    }
+                }
+            }
+            //Fire
+            for (int i = 0; i < 75; i++){
+                Vector dir = new Vector((rand.nextFloat()-0.5)*2, (rand.nextFloat()-0.5)*2, (rand.nextFloat()-0.5)*2);
+                RayTraceResult result = world.rayTraceBlocks(pos.toLocation(world).add(0,3,0), dir, 10, FluidCollisionMode.ALWAYS, true);
+                if (result != null) {
+                    Block hitblock = result.getHitBlock();
+                    hitblock.getRelative(result.getHitBlockFace()).setType(Material.FIRE);
+                } else {
+                    Vector hit = dir.clone();
+                    for (int _i = 0; _i < 10; _i++){
+                        hit.subtract(new Vector(0,1,0));
+                        if (world.getBlockAt(hit.toLocation(world)) != null){
+                            Block hitblock = world.getBlockAt(hit.toLocation(world));
+                            hitblock.getRelative(BlockFace.UP).setType(Material.FIRE);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        armourStand.remove();
+        MissileWarfare.activemissiles.remove(this);
+        run.cancel();
     }
 
     public Vector getVelocity(){
@@ -143,37 +286,44 @@ public class MissileController {
         float xdist = (float) (target.getX() - pos.getX());
         float zdist = (float) (target.getZ() - pos.getZ());
 
-        if (xdist != 0) {
+        if (Math.abs(xdist) > speed) {
             if (xdist < 0) {
                 velocity.setX(-speed);
             } else {
                 velocity.setX(speed);
             }
         }
-        if (zdist != 0) {
+        if (Math.abs(zdist) > speed) {
             if (zdist < 0) {
                 velocity.setZ(-speed);
             } else {
                 velocity.setZ(speed);
             }
         }
-        if (Math.abs(xdist) < 10 && Math.abs(zdist) < 10) {
+        if (Math.abs(xdist) < 20 && Math.abs(zdist) < 20) {
             world.loadChunk(pos.toLocation(world).getChunk());
-            velocity.setY(-speed);
+            velocity.setY(-1);
+            if (!deployedCluster){
+                for (int i = 0; i < Math.round(Math.random()*10); i++) {
+                    deployedCluster = true;
+                    MissileController missile = new MissileController(true, pos.clone(), target.clone(), 2, world, 2, 40, 17, 120);
+                    missile.deployedCluster = true;
+                    missile.FireMissile();
+                }
+            }
         }
         if (pos.getY() < cruiseAlt-40) {
             velocity.setX(0);
             velocity.setZ(0);
-        } else if (pos.getY() < cruiseAlt) {
+        }else if (pos.getY() < cruiseAlt) {
             velocity.setX(velocity.getX()/4);
             velocity.setZ(velocity.getX()/4);
         }else if (pos.getY() < cruiseAlt-20) {
             velocity.setX(velocity.getX()/8);
             velocity.setZ(velocity.getX()/8);
         }
-        velocity.setX(Math.round(velocity.getX()));
-        velocity.setZ(Math.round(velocity.getZ()));
-        System.out.println(velocity);
+        velocity.setX(velocity.getX());
+        velocity.setZ(velocity.getZ());
         return velocity;
     }
     public Vector getVelocityIgnoreY(){

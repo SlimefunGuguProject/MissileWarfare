@@ -2,6 +2,7 @@ package me.kaiyan.missilewarfare;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import me.kaiyan.missilewarfare.Items.MissileClass;
+import me.kaiyan.missilewarfare.Missiles.MissileConfig;
 import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.inventory.Inventory;
@@ -26,9 +27,39 @@ public class VariantsAPI {
             case 5:
                 return "GAAM";
             case 6:
-                return "NMR";
+                return "MR";
             case 7:
-                return "NMHE";
+                return "MHE";
+            case 8:
+                return "MLR";
+            case 9:
+                return "MAC";
+            case 10:
+                return "MAPT1";
+            case 11:
+                return "MAPT2";
+            case 12:
+                return "MAPT3";
+            case 13:
+                return "MGAS";
+            case 14:
+                return "EXCV";
+            case 15:
+                return "STCK";
+            case 16:
+                return "ICBM";
+            case 17:
+                return "CLST";
+            case 18:
+                return "NPLM";
+            case 19:
+                return "AVMS";
+            case 20:
+                return "AVHE";
+            case 21:
+                return "AVLR";
+            case 22:
+                return "AVAC";
         }
         return "NONE";
     }
@@ -53,6 +84,82 @@ public class VariantsAPI {
                 return 8;
             case "MISSILEAC":
                 return 9;
+            case "MISSILEAPONE":
+                return 10;
+            case "MISSILEAPTWO":
+                return 11;
+            case "MISSILEAPTHR":
+                return 12;
+            case "MISSILEGAS":
+                return 13;
+            case "MISSILEEXCAV":
+                return 14;
+            case "MISSILESTICK":
+                return 15;
+            case "MISSILEICBM":
+                return 16;
+            case "MISSILECLUSTER":
+                return 17;
+            case "MISSILENAPALM":
+                return 18;
+            case "MISSILEADV":
+                return 19;
+            case "MISSILEHEADV":
+                return 20;
+            case "MISSILELRADV":
+                return 21;
+            case "MISSILEACADV":
+                return 22;
+        }
+        return 0;
+    }
+
+    public static int getIntTypeFromSlimefunitemID(String id){
+        switch (id) {
+            case "SMALLMISSILE":
+                return 1;
+            case "SMALLMISSILEHE":
+                return 2;
+            case "SMALLMISSILELR":
+                return 3;
+            case "SMALLMISSILEAC":
+                return 4;
+            case "ANTIAIRMISSILE":
+                return 5;
+            case "MISSILE":
+                return 6;
+            case "MISSILEHE":
+                return 7;
+            case "MISSILELR":
+                return 8;
+            case "MISSILEAC":
+                return 9;
+            case "MISSILEAPONE":
+                return 10;
+            case "MISSILEAPTWO":
+                return 11;
+            case "MISSILEAPTHR":
+                return 12;
+            case "MISSILEGAS":
+                return 13;
+            case "MISSILEEXCAV":
+                return 14;
+            case "MISSILESTICK":
+                return 15;
+            case "MISSILEICBM":
+                return 16;
+            case "MISSILECLUSTER":
+                return 17;
+            case "MISSILENAPALM":
+                return 18;
+            case "MISSILEADV":
+                return 19;
+            case "MISSILEHEADV":
+                return 20;
+            case "MISSILELRADV":
+                return 21;
+            case "MISSILEACADV":
+                return 22;
         }
         return 0;
     }
@@ -67,34 +174,69 @@ public class VariantsAPI {
         return null;
     }
 
+    public static ItemStack getOtherFirstMissile(Inventory inv, SlimefunItem slimefunItem){
+        for (ItemStack item : inv){
+            SlimefunItem _item = SlimefunItem.getByItem(item);
+            if (_item != null && _item.getId().equals(slimefunItem.getId())){
+                return item;
+            }
+        }
+        return null;
+    }
+
     public static MissileClass missileStatsFromType(int type){
         switch (type){
             case 1:
-                return new MissileClass(2,500, 2, 100, 1);
+                return MissileConfig.missiles[0];
             case 2:
-                return new MissileClass(1,400, 2.5, 120, 2);
+                return MissileConfig.missiles[1];
             case 3:
-                return new MissileClass(2,600,2, 100, 3);
+                return MissileConfig.missiles[2];
             case 4:
-                return new MissileClass(2, 550,2, 60, 4);
+                return MissileConfig.missiles[3];
             case 5:
-                return new MissileClass(3, 400,3, 0, 5);
+                return MissileConfig.missiles[4];
             case 6:
-                return new MissileClass(2.5f, 650, 3.5, 80, 6);
+                return MissileConfig.missiles[5];
             case 7:
-                return new MissileClass(2, 600, 4, 100, 7);
+                return MissileConfig.missiles[6];
             case 8:
-                return new MissileClass(2.5f, 800, 3.5, 80, 8);
+                return MissileConfig.missiles[7];
             case 9:
-                return new MissileClass(2.5f, 600, 3.5,50, 9);
+                return MissileConfig.missiles[8];
+            case 10:
+                return MissileConfig.missiles[9];
+            case 11:
+                return MissileConfig.missiles[10];
+            case 12:
+                return MissileConfig.missiles[11];
+            case 13:
+                return MissileConfig.missiles[12];
+            case 14:
+                return MissileConfig.missiles[13];
+            case 15:
+                return MissileConfig.missiles[14];
+            case 16:
+                return MissileConfig.missiles[15];
+            case 17:
+                return MissileConfig.missiles[16];
+            case 18:
+                return MissileConfig.missiles[17];
+            case 19:
+                return MissileConfig.missiles[18];
+            case 20:
+                return MissileConfig.missiles[19];
+            case 21:
+                return MissileConfig.missiles[20];
+            case 22:
+                return MissileConfig.missiles[21];
         }
         return null;
     }
 
     public static boolean isInRange(int dist, int type){
         MissileClass missile = missileStatsFromType(type);
-        return dist <= missile.range;
-
+        return dist >= missile.range;
     }
 
     public static void spawnMissileTrail(World world, int type, Vector pos, Vector velocity){
@@ -113,9 +255,12 @@ public class VariantsAPI {
             //ACCURATE MISSILES
             world.spawnParticle(Particle.CRIT, pos.toLocation(world), 0, -velocity.getX()+((rand.nextDouble()-0.5)*0.25), -velocity.getY()+((rand.nextDouble()-0.5)*0.25), -velocity.getZ()+((rand.nextDouble()-0.5)*0.25), 0.3, null, true);
         }
-        if (type == 6 || type == 7 || type == 8 || type == 9){
+        if (type == 6 || type == 7 || type == 8 || type == 9 || type == 10){
             // 'Missile' TYPES
             world.spawnParticle(Particle.VILLAGER_HAPPY, pos.toLocation(world), 1);
+        }
+        if (type == 10 || type == 11 || type == 12){
+            world.spawnParticle(Particle.DRAGON_BREATH, pos.toLocation(world), 1);
         }
     }
 }

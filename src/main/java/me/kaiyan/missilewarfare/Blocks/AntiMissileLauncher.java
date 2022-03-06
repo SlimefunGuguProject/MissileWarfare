@@ -9,6 +9,7 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.ItemUtils;
 import me.kaiyan.missilewarfare.MissileWarfare;
 import me.kaiyan.missilewarfare.Missiles.MissileController;
+import me.kaiyan.missilewarfare.Translations;
 import me.kaiyan.missilewarfare.VariantsAPI;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
@@ -16,8 +17,8 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.block.BlockState;
 import org.bukkit.block.Dispenser;
+import org.bukkit.block.TileState;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.Directional;
 import org.bukkit.event.block.BlockDispenseEvent;
@@ -48,9 +49,9 @@ public class AntiMissileLauncher extends SlimefunItem{
                 Block block = event.getBlockPlaced();
                 //Block bottom = world.getBlockAt(event.getBlock().getLocation().subtract(new Vector(0, 2, 0)));
                 if (correctlyBuilt(block)){
-                    event.getPlayer().sendMessage("成功创建防空发射井！");
+                    event.getPlayer().sendMessage(Translations.get("messages.launchers.createantiair.success"));
                 }else{
-                    event.getPlayer().sendMessage("四面缺失原石/煤炭块");
+                    event.getPlayer().sendMessage(Translations.get("messages.launchers.createantiair.failure"));
                 }
             }
         };
@@ -68,26 +69,24 @@ public class AntiMissileLauncher extends SlimefunItem{
 
             @Override
             public void tick(Block block, SlimefunItem slimefunItem, Config config) {
-                BlockState state = block.getState();
-                PersistentDataContainer cont = state.getChunk().getPersistentDataContainer();
+                TileState state = (TileState) block.getState();
+                PersistentDataContainer cont = state.getPersistentDataContainer();
                 if (!block.isBlockPowered()) {
                     List<MissileController> missiles = MissileWarfare.activemissiles;
                     MissileController locked = null;
                     if (!missiles.isEmpty()) {
                         for (MissileController missile : missiles) {
-                            if (block.getLocation().distanceSquared(missile.pos.toLocation(missile.world)) < range) {
+                            if (block.getLocation().distanceSquared(missile.pos.toLocation(missile.world)) < range && missile.isgroundmissile) {
                                 locked = missile;
                                 break;
                             }
                         }
                     }
+                    state.update();
                     try {
                         if (locked != null && cont.get(new NamespacedKey(MissileWarfare.getInstance(), "timesincelastshot"), PersistentDataType.INTEGER) <= System.currentTimeMillis()) {
-                            MissileWarfare.activemissiles.remove(locked);
-                            MissileWarfare.activemissiles.add(locked);
+                            cont.set(new NamespacedKey(MissileWarfare.getInstance(), "timesincelastshot"), PersistentDataType.INTEGER, (int)System.currentTimeMillis()+1000);
                             fireMissile((Dispenser) block.getState(), locked);
-                            cont.set(new NamespacedKey(MissileWarfare.getInstance(), "timesincelastshot"), PersistentDataType.INTEGER, (int)System.currentTimeMillis()+3000);
-                            state.update();
                         }
                     } catch (NullPointerException e){
                         cont.set(new NamespacedKey(MissileWarfare.getInstance(), "timesincelastshot"), PersistentDataType.INTEGER, Integer.MIN_VALUE);
@@ -121,15 +120,15 @@ public class AntiMissileLauncher extends SlimefunItem{
         }
          */
     public void fireMissile(Dispenser disp, MissileController target){
-        ItemStack missileitem = VariantsAPI.getFirstMissile(disp.getInventory());
+        ItemStack missileitem = VariantsAPI.getOtherFirstMissile(disp.getInventory(), SlimefunItem.getById("ANTIAIRMISSILE"));
         if (SlimefunItem.getByItem(missileitem) == SlimefunItem.getById("ANTIAIRMISSILE")) {
-            MissileController missile = new MissileController(false, disp.getBlock().getLocation().add(new Vector(0.5, 1.35, 0.5)).toVector(), new Vector(0, 0, 0), 3, disp.getWorld(), 3, 0, 0, new Vector(0, 0, 0));
-            missile.FireMissileAtMissile(target);
             ItemUtils.consumeItem(missileitem, false);
+            MissileController missile = new MissileController(false, disp.getBlock().getLocation().add(new Vector(0.5, 1.35, 0.5)).toVector(), new Vector(0, 0, 0), 8, disp.getWorld(), 3, 0, 0, new Vector(0, 0, 0));
+            missile.FireMissileAtMissile(target);
         }
     }
 
     public boolean correctlyBuilt(Block block) {
-        return block.getRelative(BlockFace.NORTH).getType() == Material.COAL_BLOCK && block.getRelative(BlockFace.SOUTH).getType() == Material.COAL_BLOCK && block.getRelative(BlockFace.EAST).getType() == Material.COAL_BLOCK && block.getRelative(BlockFace.WEST).getType() == Material.COAL_BLOCK;
+        return block.getRelative(BlockFace.DOWN).getType() == Material.OBSIDIAN;
     }
 }
