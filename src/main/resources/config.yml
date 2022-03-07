@@ -1,4 +1,3 @@
-# 导弹设置
 missiles:
     SMALLMISSILE:
         speed: 2
@@ -73,7 +72,7 @@ missiles:
     MISSILEEXCAV:
         speed: 0.5
         range: 100
-        power: 8
+        power: 10
         accuracy: 50
     MISSILESTICK:
         speed: 4
@@ -126,14 +125,14 @@ translation-pack: pack-CN
 
 # 不要改动该选项，将在第一次启动后生成语言文件
 saved-packs:
-    - pack-EN
-    - pack-NL
     - pack-CN
 
-# 日志记录
 logging:
-    # 记录导弹发射
     logMissileShots: true
 
+other:
+    #How long until cleanup of armour stands (ticks)
+    cleanup-wait-time: 1200
+
 options:
-  auto-update: true
+    auto-update: true

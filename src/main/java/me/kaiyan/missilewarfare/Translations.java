@@ -2,8 +2,6 @@ package me.kaiyan.missilewarfare;
 
 import io.github.thebusybiscuit.slimefun4.libraries.dough.config.Config;
 
-import java.util.List;
-
 public class Translations {
     public static Config pack;
     public static String missileType = "";

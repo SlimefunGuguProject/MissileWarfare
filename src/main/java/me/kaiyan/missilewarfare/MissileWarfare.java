@@ -34,7 +34,7 @@ public class MissileWarfare extends JavaPlugin implements SlimefunAddon {
         }
         File lang = new File(getDataFolder()+"/lang");
         if (!lang.exists()) {
-            String[] loadedpacks = new String[]{"pack-EN"};
+            String[] loadedpacks = new String[]{"pack-CN"};
             for (String pack : loadedpacks) {
                 saveResource(pack + ".yml", false);
             }
