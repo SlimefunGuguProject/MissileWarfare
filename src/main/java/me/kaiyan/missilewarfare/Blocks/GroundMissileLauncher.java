@@ -8,12 +8,14 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockDispenseHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.common.ChatColors;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.ItemUtils;
 import me.kaiyan.missilewarfare.Items.MissileClass;
 import me.kaiyan.missilewarfare.MissileWarfare;
 import me.kaiyan.missilewarfare.Missiles.MissileController;
 import me.kaiyan.missilewarfare.Translations;
 import me.kaiyan.missilewarfare.VariantsAPI;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.World;
@@ -110,7 +112,7 @@ public class GroundMissileLauncher extends SlimefunItem{
                     Prompt askCoordY = new StringPrompt() {
                         @Override
                         public String getPromptText(ConversationContext conversationContext) {
-                            return "输入Z坐标，输入exit以取消设置";
+                            return ChatColors.color("&e输入Z坐标，输入&bexit&e以取消设置");
                         }
 
                         @Override
@@ -123,7 +125,7 @@ public class GroundMissileLauncher extends SlimefunItem{
                                 state.update();
                                 return END_OF_CONVERSATION;
                             }
-                            conversationContext.getForWhom().sendRawMessage("Z: " + Integer.parseInt(s));
+                            conversationContext.getForWhom().sendRawMessage(ChatColors.color("&a已设置目标位置 Z: &b" + Integer.parseInt(s)));
                             cont.set(new NamespacedKey(MissileWarfare.getInstance(), "Conversing"), PersistentDataType.INTEGER, 0);
                             state.update();
                             return END_OF_CONVERSATION;
@@ -132,7 +134,7 @@ public class GroundMissileLauncher extends SlimefunItem{
                     Prompt askCoordX = new StringPrompt() {
                         @Override
                         public String getPromptText(ConversationContext conversationContext) {
-                            return "输入X坐标，输入exit以取消设置";
+                            return ChatColors.color("&e输入X坐标，输入&bexit&e以取消设置");
                         }
 
                         @Override
@@ -140,12 +142,12 @@ public class GroundMissileLauncher extends SlimefunItem{
                             try {
                                 cont.set(new NamespacedKey(MissileWarfare.getInstance(), "coords"), PersistentDataType.INTEGER_ARRAY, new int[]{Integer.parseInt(s), 0});
                             } catch (NumberFormatException e) {
-                                conversationContext.getForWhom().sendRawMessage(Translations.get("messages.launchers.ground.setting.notacoord"));
+                                conversationContext.getForWhom().sendRawMessage(ChatColors.color(Translations.get("messages.launchers.ground.setting.notacoord")));
                                 cont.set(new NamespacedKey(MissileWarfare.getInstance(), "Conversing"), PersistentDataType.INTEGER, 0);
                                 state.update();
                                 return END_OF_CONVERSATION;
                             }
-                            conversationContext.getForWhom().sendRawMessage("X: " + Integer.parseInt(s));
+                            conversationContext.getForWhom().sendRawMessage(ChatColors.color("&a已设置目标位置 X: &b" + Integer.parseInt(s)));
                             return askCoordY;
                         }
                     };
@@ -173,7 +175,7 @@ public class GroundMissileLauncher extends SlimefunItem{
                     Prompt askCruiseAlt = new StringPrompt() {
                         @Override
                         public String getPromptText(ConversationContext conversationContext) {
-                            return "输入巡航高度(Y)，输入exit以取消设置";
+                            return ChatColors.color("&e输入巡航高度(Y)，输入&bexit&e以取消设置");
                         }
 
                         @Override
@@ -181,12 +183,12 @@ public class GroundMissileLauncher extends SlimefunItem{
                             try {
                                 cont.set(new NamespacedKey(MissileWarfare.getInstance(), "alt"), PersistentDataType.INTEGER, Integer.valueOf(s));
                             } catch (NumberFormatException e) {
-                                conversationContext.getForWhom().sendRawMessage(Translations.get("messages.launchers.ground.setting.notanumber"));
+                                conversationContext.getForWhom().sendRawMessage(ChatColors.color(Translations.get("messages.launchers.ground.setting.notanumber")));
                                 cont.set(new NamespacedKey(MissileWarfare.getInstance(), "Conversing"), PersistentDataType.INTEGER, 0);
                                 state.update();
                                 return END_OF_CONVERSATION;
                             }
-                            conversationContext.getForWhom().sendRawMessage(Translations.get("messages.launchers.ground.setting.cruisealt") + Integer.parseInt(s));
+                            conversationContext.getForWhom().sendRawMessage(ChatColors.color(Translations.get("messages.launchers.ground.setting.cruisealt") + Integer.parseInt(s)));
                             cont.set(new NamespacedKey(MissileWarfare.getInstance(), "Conversing"), PersistentDataType.INTEGER, 0);
                             state.update();
                             return END_OF_CONVERSATION;
