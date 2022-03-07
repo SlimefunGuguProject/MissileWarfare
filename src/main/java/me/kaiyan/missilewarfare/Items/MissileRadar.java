@@ -18,10 +18,11 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.BlockRedstoneEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.slimefunguguproject.misslewarfare.Utils;
 
 public class MissileRadar extends SlimefunItem {
     public MissileRadar(ItemGroup itemGroup, ItemStack[] recipe) {
-        super(itemGroup, new SlimefunItemStack("MISSILERADAR", Material.GRAY_WOOL, "导弹雷达", "当700格范围内有导弹来袭时", "发出红石信号"), RecipeType.ENHANCED_CRAFTING_TABLE, recipe);
+        super(itemGroup, new SlimefunItemStack("MISSILERADAR", Material.GRAY_WOOL, "&6导弹雷达", "&7当700格范围内有导弹来袭时", "&7发出红石信号"), RecipeType.ENHANCED_CRAFTING_TABLE, recipe);
     }
 
     @Override
@@ -64,7 +65,7 @@ public class MissileRadar extends SlimefunItem {
         BlockPlaceHandler placeHandler = new BlockPlaceHandler(false) {
             @Override
             public void onPlayerPlace(BlockPlaceEvent event) {
-                event.getPlayer().sendMessage(Translations.get("messages.radar"));
+                Utils.send(event.getPlayer(), Translations.get("messages.radar"));
             }
         };
         addItemHandler(placeHandler);

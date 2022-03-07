@@ -32,6 +32,7 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
+import org.slimefunguguproject.misslewarfare.Utils;
 
 import java.util.Objects;
 
@@ -53,7 +54,7 @@ public class GroundMissileLauncher extends SlimefunItem{
                 event.getBlockPlaced().setBlockData(data);
                 //Block bottom = world.getBlockAt(event.getBlock().getLocation().subtract(new Vector(0, 2, 0)));
                 if (below.getType() == Material.GREEN_CONCRETE){
-                    event.getPlayer().sendMessage(Translations.get("messages.launchers.ground.create.success"));
+                    Utils.send(event.getPlayer(), Translations.get("messages.launchers.ground.create.success"));
                     /*if (bottom.getType() == Material.GREEN_CONCRETE){
                         event.getPlayer().sendMessage("Created Small Launcher!");
                     }else{
@@ -61,7 +62,7 @@ public class GroundMissileLauncher extends SlimefunItem{
                         event.setCancelled(true);
                     }*/
                 }else{
-                    event.getPlayer().sendMessage(Translations.get("messages.launchers.ground.create.failure").replace("{type}", below.getType().name()));
+                    Utils.send(event.getPlayer(), Translations.get("messages.launchers.ground.create.failure").replace("{type}", below.getType().name()));
                     event.setCancelled(true);
                 }
             }
@@ -97,7 +98,7 @@ public class GroundMissileLauncher extends SlimefunItem{
                 if (event.getPlayer().isSneaking()) {
                     int[] coords = cont.get(new NamespacedKey(MissileWarfare.getInstance(), "coords"), PersistentDataType.INTEGER_ARRAY);
                     float dist = (float) new Vector(coords[0], 0, coords[1]).distance(new Vector(event.getInteractEvent().getClickedBlock().getX(), 0, event.getInteractEvent().getClickedBlock().getY()));
-                    event.getPlayer().sendMessage(Translations.get("messages.launchers.ground.coords").replace("{xcoord}", String.valueOf(coords[0])).replace("{ycoord}", String.valueOf(coords[1])).replace("{dist}", String.valueOf(dist)));
+                    Utils.send(event.getPlayer(), Translations.get("messages.launchers.ground.coords").replace("{xcoord}", String.valueOf(coords[0])).replace("{ycoord}", String.valueOf(coords[1])).replace("{dist}", String.valueOf(dist)));
                     return;
                 }
             } catch (NullPointerException e){

@@ -11,15 +11,15 @@ messages:
             failure: "&c发射井下方必须为黑曜石"
         ground:
             create:
-                success: "已创建对地导弹发射井"
+                success: "&a已创建对地导弹发射井"
                 # Formatting: {type}
-                failure: "发射井下方必须为绿色混凝土"
+                failure: "&c发射井下方必须为绿色混凝土"
             # Formatting: {xcoord} {ycoord} {dist}
-            coords: "目标坐标为: [{xcoord} , {ycoord}] 距离: {dist}"
+            coords: "&a目标坐标为: &6[{xcoord} , {ycoord}] &a距离: &6{dist}"
             setting:
                 notanumber: "&c不是一个整数 (不支持小数)"
                 notacoord: "&c无效的坐标"
-                cruisealt: "巡航高度(Y): "
+                cruisealt: "&a已设置巡航高度(Y): "
 
     manpad:
         locking: "进入目标锁定模式..."
@@ -33,24 +33,24 @@ messages:
     radar: "方块上方放置一个红石粉来获取红石信号，需要使用中继器来捕获脉冲信号"
 
     playerlist:
-        resetkey: "复位键"
-        addedkey: "已经添加 ID "
-        noid: "无法将ID添加到启动器，没有ID分配给此玩家"
-        askwriteprompt: "您想管理哪位玩家？"
-        addedplayer: "添加玩家"
-        invalidplayer: "无效的玩家"
-        removeplayer: "您想移除哪位玩家?"
-        removedplayer: "移除玩家"
-        incorrectinput: "无效输入"
-        asktoread: "输入“阅读”来查看与此ID相关的玩家，输入“添加”来添加玩家，输入“移除”来移除玩家，输入“退出”来退出"
+        resetkey: "&b已重置配置器"
+        addedkey: "&a已经设置识别系统的ID"
+        noid: "&c无法将ID添加到发射井"
+        askwriteprompt: "&e请输入要添加的玩家的名字"
+        addedplayer: "&a已添加玩家 &b"
+        invalidplayer: "&c无效的玩家"
+        removeplayer: "&e请输入要移除的玩家的名字"
+        removedplayer: "&a已移除玩家 &b"
+        incorrectinput: "&c无效输入"
+        asktoread: "&e输入&bread&e来查看与此ID相关的玩家，输入&badd&e来添加玩家，输入&bremove&e来移除玩家，输入&bexit&e退出编辑"
         #INPUTS THE PLAYERLIST WILL TAKE IN AFTER SENDING ASKTOREAD
         inputs:
-            read: "阅读"
-            add: "添加"
-            remove: "移除"
-        askinputid: "输入想要创建的ID，输入退出即可离开"
+            read: "read"
+            add: "add"
+            remove: "remove"
+        askinputid: "&e请输入敌我识别系统的ID, 输入&bexit&e取消设置"
         #FORMATTING: {id}
-        createdid: "创建ID: {id}, 现在你可以对其进行编辑"
+        createdid: "&a已创建ID为 &b{id} &a的敌我识别系统，你现在可以添加玩家了"
         gottenid: "获取ID"
 
 materials:
@@ -168,7 +168,7 @@ missiles:
                 variant: "长距"
                 lore: "'遥远的Timmy从来没有机会'"
             ac:
-                name: "小型对地导弹 - 专精"
+                name: "小型对地导弹 - 精准"
                 variant: "专精"
                 lore: "'小Timmy从来没有机会'"
     anti-missiles:
@@ -183,22 +183,22 @@ missiles:
                 variant: "反鞘翅"
                 lore: "'空中的Timmy从来没有机会'"
     normalmissile:
-        lore: "地对地导弹"
+        lore: "对地导弹"
         missiles:
             normal:
-                name: "地对地导弹"
+                name: "对地导弹"
                 variant: "普通"
                 lore: "'高效的瞄准敌对目标'"
             he:
-                name: "地对地导弹 - 高爆"
+                name: "对地导弹 - 高爆"
                 variant: "高爆"
                 lore: "'高效的清除你的敌人'"
             lr:
-                name: "地对地导弹 - 长距"
+                name: "对地导弹 - 长距"
                 variant: "长距"
                 lore: "'高效的城市导弹'"
             ac:
-                name: "地对地导弹 - 专精"
+                name: "对地导弹 - 精准"
                 variant: "高精度"
                 lore: "'高效的区域清理导弹'"
     armourpiercing:
@@ -310,11 +310,9 @@ launchers:
     antielytra:
         name: "反鞘翅导弹发射地井"
         lore:
-            - "向附近的玩家发射导弹"
-            - "该玩家需使用鞘翅在空中飞行"
-            - "不包括那些在"
-            - "分配于此的ID"
-            - "使用木棍设置组ID"
+            - "向范围内正在使用鞘翅的玩家发射导弹"
+            - "不会向指定敌我识别系统中的玩家发射"
+            - "使用木棍设置敌我识别系统"
             - "需要反鞘翅导弹"
 
 other:
@@ -322,12 +320,57 @@ other:
         name: "便携式防空导弹"
         lore:
             - "一种手持反导设备"
-            - "Shift+RMB 开始追踪"
+            - "Shift+右键点击 开始追踪"
             - "释放Shift 发射导弹"
     playerlist:
-        name: Player List
+        name: "敌我识别系统配置器"
         lore:
-            - "右击以设置玩家ID"
-            - "这些ID是公用的"
-            - "所有人都可以编辑它们"
-            - "如果它们有ID"
+            - "制作完成后，右键点击设置系统的ID"
+            - "然后右键点击并按照提示来设置识别系统"
+            - "按Q来清除ID,Shift+Q丢弃物品"
+            - "系统ID全服共享，如果其他玩家知道了"
+            - "你的识别系统的ID，它们也能设置你的识别系统"
+            - "不要透露你的ID!"
+
+guidebook:
+    homepage:
+        title: "导弹科技"
+        subtitle: "这本向导书是介绍导弹科技的"
+        contenttitle: "目录:"
+        content:
+            - "对地导弹发射井"
+            - "反弹道导弹发射井"
+            - "便携式防空导弹"
+            - "反鞘翅导弹发射井"
+    groundlauncherpage:
+        title: "对地导弹发射井"
+        content:
+            - "导弹发射井可以向给定坐标发射导弹"
+            - "手持木棍右击以设置发射坐标"
+            - "手持烈焰棒右击以设置巡航高度"
+            - "[BOLD]会命中己方导弹"
+    antimissilepage:
+        title: "反弹道导弹发射井"
+        content:
+            - "反弹道导弹发射井会尝试拦截任何来袭的导弹"
+            - "无论是友方还是敌方的导弹都会拦截"
+            - "向其提供红石信号来关闭拦截"
+    manpadpage:
+        title: "便携式防空导弹"
+        content:
+            - "便携式防空导弹可以随身携带，识别敌方导弹并拦截"
+            - "与反弹道导弹发射井不同，便携式防空导弹保证可以击落敌方来袭的导弹"
+            - "按住Shift来进行导弹识别"
+    antielytrapage:
+        title: "防空导弹发射井"
+        content:
+            - "防空导弹发射井可以发射导弹来破坏进入射程的玩家身上的鞘翅"
+            - "这在战争期间保卫城市时非常好用"
+            - "使用敌我识别系统来设置忽略的目标"
+            - "手持木棍右键点击来设置"
+    playeridpage:
+        title: "敌我识别系统"
+        content:
+            - "敌我识别系统可以用于让部分发射井忽略指定的玩家"
+            - "使用敌我识别系统配置器以进行设置"
+            - "[BOLD]敌我识别系统使用的ID是全服通用的，不要让别人知道你的ID!"

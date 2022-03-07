@@ -5,6 +5,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.WeaponUseHandler;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.common.ChatColors;
 import me.kaiyan.missilewarfare.VariantsAPI;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -19,11 +20,11 @@ public class MissileItem extends SlimefunItem {
 
         ItemMeta meta = item.getItemMeta();
         List<String> lore = meta.getLore();
-        lore.add("范围: "+Math.sqrt(missileClass.range));
-        lore.add("威力: "+missileClass.power);
-        lore.add("速度: "+missileClass.speed);
-        lore.add("准确度: "+missileClass.accuracy+" 格内");
-        lore.add(extraLore);
+        lore.add(ChatColors.color("&7范围: "+Math.sqrt(missileClass.range)));
+        lore.add(ChatColors.color("&7威力: "+missileClass.power));
+        lore.add(ChatColors.color("&7速度: "+missileClass.speed));
+        lore.add(ChatColors.color("&7准确度: "+missileClass.accuracy+" 格内"));
+        lore.add(ChatColors.color("&7" + extraLore));
         meta.setLore(lore);
         item.setItemMeta(meta);
 

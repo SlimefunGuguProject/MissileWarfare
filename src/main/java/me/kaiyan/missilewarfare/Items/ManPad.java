@@ -20,6 +20,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
+import org.slimefunguguproject.misslewarfare.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +38,7 @@ public class ManPad extends SlimefunItem {
     private void itemUse(PlayerRightClickEvent event) {
         SlimefunItem manpad = event.getSlimefunItem().get();
         if (event.getPlayer().isSneaking() && !active.contains(event.getPlayer())) {
-            event.getPlayer().sendMessage(Translations.get("messages.manpad.locking"));
+            Utils.send(event.getPlayer(), Translations.get("messages.manpad.locking"));
             active.add(event.getPlayer());
             new BukkitRunnable() {
                 public int scanLinepos = 0;
@@ -47,9 +48,9 @@ public class ManPad extends SlimefunItem {
                 public void run() {
                     //check if changed weapon
                     if (!event.getSlimefunItem().isPresent()) {
-                        event.getPlayer().sendMessage(Translations.get("messages.manpad.itemchanged"));
+                        Utils.send(event.getPlayer(), Translations.get("messages.manpad.itemchanged"));
                     } else if (event.getSlimefunItem().get() != manpad) {
-                        event.getPlayer().sendMessage(Translations.get("messages.manpad.itemchanged"));
+                        Utils.send(event.getPlayer(), Translations.get("messages.manpad.itemchanged"));
                     }
                     MissileController lockedmissile = null;
                     //Get Missiles In Range
@@ -120,7 +121,7 @@ public class ManPad extends SlimefunItem {
                     // Check if sneaking
                     if (!event.getPlayer().isSneaking()) {
                         if (lockedmissile == null){
-                            event.getPlayer().sendMessage(Translations.get("messages.manpad.notarget"));
+                            Utils.send(event.getPlayer(), Translations.get("messages.manpad.notarget"));
                             this.cancel();
                         } else {
                             active.remove(event.getPlayer());

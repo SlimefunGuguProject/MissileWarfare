@@ -27,6 +27,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.util.Vector;
+import org.slimefunguguproject.misslewarfare.Utils;
 
 import java.util.List;
 
@@ -49,9 +50,9 @@ public class AntiMissileLauncher extends SlimefunItem{
                 Block block = event.getBlockPlaced();
                 //Block bottom = world.getBlockAt(event.getBlock().getLocation().subtract(new Vector(0, 2, 0)));
                 if (correctlyBuilt(block)){
-                    event.getPlayer().sendMessage(Translations.get("messages.launchers.createantiair.success"));
+                    Utils.send(event.getPlayer(), Translations.get("messages.launchers.createantiair.success"));
                 }else{
-                    event.getPlayer().sendMessage(Translations.get("messages.launchers.createantiair.failure"));
+                    Utils.send(event.getPlayer(), Translations.get("messages.launchers.createantiair.failure"));
                 }
             }
         };
