@@ -4,6 +4,7 @@ import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.config.Config;
 import me.kaiyan.missilewarfare.Missiles.MissileConfig;
 import me.kaiyan.missilewarfare.Missiles.MissileController;
+import net.guizhanss.guizhanlib.updater.GuizhanBuildsUpdater;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -23,8 +24,15 @@ public class MissileWarfare extends JavaPlugin implements SlimefunAddon {
     public void onEnable() {
         activemissiles = new ArrayList<>();
         plugin = this;
+
         // Read something from your config.yml
         Config cfg = new Config(this);
+
+        if (cfg.getBoolean("options.auto-update") &&
+            getDescription().getVersion().startsWith("Build")) {
+            new GuizhanBuildsUpdater(this, getFile(), "haiman233", "MissileWarfare-CN", "master", false).start();
+        }
+
         Config saveFile;
         if (!new File(this.getDataFolder()+"/saveID.yml").exists()) {
             saveFile = new Config(new File(this.getDataFolder() + "/saveID.yml"));
