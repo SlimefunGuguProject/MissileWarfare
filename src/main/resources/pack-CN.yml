@@ -164,7 +164,7 @@ missiles:
                 variant: "高爆"
                 lore: "'大Timmy从来没有机会...'"
             lr:
-                name: "小型对地导弹 - 远距"
+                name: "小型对地导弹 - 长距"
                 variant: "远距"
                 lore: "'遥远的Timmy从来没有机会'"
             ac:
@@ -194,11 +194,11 @@ missiles:
                 variant: "高爆"
                 lore: "'高效的清除你的敌人'"
             lr:
-                name: "地对地导弹 - 远距离"
-                variant: "远距离"
+                name: "地对地导弹 - 长距"
+                variant: "长距"
                 lore: "'高效的城市导弹'"
             ac:
-                name: "地对地导弹 - 高精度"
+                name: "地对地导弹 - 专精"
                 variant: "高精度"
                 lore: "'高效的区域清理导弹'"
     armourpiercing:
@@ -292,43 +292,42 @@ specialmissiles:
 
 launchers:
     ground:
-        name: "地对地导弹发射台"
+        name: "地对地导弹发射地井"
         lore:
-            - "Shoots a specified area on the ground."
-            - "Use a stick to set target coords"
-            - "Shift with a stick to check if it can fire"
-            - "Right click with a blaze rod to set cruise alt"
-            - "Default cruise alt is Y:120"
-            - "Needs to be built on 1 green concrete block."
+            - "用于打击地面上的特定区域"
+            - "使用木棍设定目标坐标"
+            - "手持木棍Shift单击以检查它是否能开火"
+            - "手持烈焰棒右键单击以设置巡航高度"
+            - "默认巡航高度为Y:120"
+            - "需要建在一块绿色混凝土上"
     antimissile:
-        name: "反弹道导弹发射台"
+        name: "反弹道导弹发射地井"
         lore:
-            - "Targets and shoots down other missiles in the area."
-            - "Use redstone to disable it"
-            - "Needs to be built on obsidian"
-            - "Needs Anti-Missile Missiles"
+            - "瞄准并击落该地区的其他导弹"
+            - "需用红石操控开关"
+            - "需要建在黑曜石上"
+            - "需要反弹道导弹"
     antielytra:
-        name: "反鞘翅导弹发射台"
+        name: "反鞘翅导弹发射地井"
         lore:
-            - "Fires a missile at nearby player"
-            - "that are using an elytra"
-            - "Excluding those on the"
-            - "ID assigned to this"
-            - "use a stick to set the group ID"
-            - "Needs Anti-Elytra Missiles"
+            - "向附近的玩家发射导弹"
+            - "该玩家需使用鞘翅在空中飞行"
+            - "不包括那些在"
+            - "分配于此的ID"
+            - "使用木棍设置组ID"
+            - "需要反鞘翅导弹"
 
 other:
     manpad:
         name: "便携式防空导弹"
         lore:
-            - "Handheld anti-missile device"
-            - "Shift+RMB to begin tracking"
-            - "Release Shift fire"
+            - "一种手持反导设备"
+            - "Shift+RMB 开始追踪"
+            - "释放Shift 发射导弹"
     playerlist:
         name: Player List
         lore:
-            - "Right Click to set the players"
-            - "for a ID"
-            - "THESE ID'S ARE GLOBAL"
-            - "ANYONE CAN EDIT THEM IF"
-            - "THEY HAVE THE ID"
+            - "右击以设置玩家ID"
+            - "这些ID是公用的"
+            - "所有人都可以编辑它们"
+            - "如果它们有ID"
