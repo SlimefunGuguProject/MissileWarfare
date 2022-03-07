@@ -33,25 +33,25 @@ messages:
     radar: "方块上方放置一个红石粉来获取红石信号，需要使用中继器来捕获脉冲信号"
 
     playerlist:
-        resetkey: "Reset Key"
+        resetkey: "复位键"
         addedkey: "已经添加 ID "
-        noid: "Couldn't add ID to the launcher, No ID assigned to this PlayerList"
-        askwriteprompt: "What player would you like to add? Say exit to exit"
-        addedplayer: "Added player"
+        noid: "无法将ID添加到启动器，没有ID分配给此玩家"
+        askwriteprompt: "您想管理哪位玩家？"
+        addedplayer: "添加玩家"
         invalidplayer: "无效的玩家"
-        removeplayer: "What player would you like to remove?"
-        removedplayer: "Removed Player"
-        incorrectinput: "Incorrect Input"
-        asktoread: "Say 'read' to see the players associated with this ID, Say 'add' to add a player, Say 'remove' to remove a player, Say 'exit' to exit"
+        removeplayer: "您想移除哪位玩家?"
+        removedplayer: "移除玩家"
+        incorrectinput: "无效输入"
+        asktoread: "输入“阅读”来查看与此ID相关的玩家，输入“添加”来添加玩家，输入“移除”来移除玩家，输入“退出”来退出"
         #INPUTS THE PLAYERLIST WILL TAKE IN AFTER SENDING ASKTOREAD
         inputs:
-            read: "read"
-            add: "add"
-            remove: "remove"
-        askinputid: "Input ID to create, say exit to leave"
+            read: "阅读"
+            add: "添加"
+            remove: "移除"
+        askinputid: "输入想要创建的ID，输入退出即可离开"
         #FORMATTING: {id}
-        createdid: "Created ID : {id}, You can now write to it"
-        gottenid: "Gotten ID"
+        createdid: "创建ID: {id}, 现在你可以对其进行编辑"
+        gottenid: "获取ID"
 
 materials:
     sugarfuel:
@@ -138,13 +138,13 @@ materials:
     heavywarhead:
         name: "重型导弹弹头"
         lore:
-            - "A warhead packed with heavy explosives"
+            - "装有重型炸药的导弹弹头"
     icbmbody:
         name: "洲际弹道导弹体"
         lore:
-            - "Engineered to perfection, Sleek, Deadly."
-            - "Uranium added for a cool glow effect"
-            - "The body of the ICBM missile"
+            - "设计完美、时尚且致命"
+            - "添加铀元素，打造完美的发光效果"
+            - "洲际弹道导弹的主体"
     mine:
         name: "地雷"
         lore:
@@ -164,12 +164,12 @@ missiles:
                 variant: "高爆"
                 lore: "'大Timmy从来没有机会...'"
             lr:
-                name: "小型对地导弹 - 远距离"
-                variant: "远距离"
+                name: "小型对地导弹 - 远距"
+                variant: "远距"
                 lore: "'遥远的Timmy从来没有机会'"
             ac:
-                name: "小型对地导弹 - 高精度"
-                variant: "高精度"
+                name: "小型对地导弹 - 专精"
+                variant: "专精"
                 lore: "'小Timmy从来没有机会'"
     anti-missiles:
         lore: "防空导弹"
@@ -188,19 +188,19 @@ missiles:
             normal:
                 name: "地对地导弹"
                 variant: "普通"
-                lore: "'Your friendly neighbourhood missile'"
+                lore: "'高效的瞄准敌对目标'"
             he:
                 name: "地对地导弹 - 高爆"
                 variant: "高爆"
-                lore: "'Your not-so friendly neighbourhood missile'"
+                lore: "'高效的清除你的敌人'"
             lr:
                 name: "地对地导弹 - 远距离"
                 variant: "远距离"
-                lore: "'Your friendly city missile'"
+                lore: "'高效的城市导弹'"
             ac:
                 name: "地对地导弹 - 高精度"
                 variant: "高精度"
-                lore: "'Your friendly room-clearing missile'"
+                lore: "'高效的区域清理导弹'"
     armourpiercing:
         lore: "钻地导弹"
         missiles:
@@ -208,85 +208,86 @@ missiles:
                 name: "钻地导弹"
                 variant: "1级钻地弹"
                 lore:
-                    - "Goes through 1 block before exploding"
-                    - "Wont go through obsidian"
-                    - "'Your basement isnt safe for long!'"
+                    - "该导弹会在爆炸前钻过1个区块"
+                    - "但该穿透效果对黑曜石无效"
+                    - "'你的地下室也不会永保天命!'"
             tiertwo:
                 name: "钻地导弹"
                 variant: "2级钻地弹"
                 lore:
-                    - "Goes through 1 block before exploding"
-                    - "50% Chance to go through obsidian"
-                    - "10% chance to break the hit obsidian"
-                    - "'Your bunker isnt safe for long!'"
+                    - "该导弹会在爆炸前钻过1个区块"
+                    - "50%的几率穿过黑曜石"
+                    - "10%的几率破坏命中的黑曜石"
+                    - "'你的掩体也即将离你而去!'"
             tierthree:
                 name: "钻地导弹"
                 variant: "3级钻地弹"
                 lore:
-                    - Goes through 2 block before exploding"
-                    - "75% Chance to go through obsidian"
-                    - "20% chance to break the hit obsidian"
-                    - "'Your bunker definitely isnt safe for long!'"
+                    - "该导弹会在爆炸前钻过2个区块"
+                    - "75%的几率穿过黑曜石"
+                    - "20%的几率破坏命中的黑曜石"
+                    - "'别想着去当土拨鼠!'"
     advanced:
         lore: "高级对地导弹"
         missiles:
             normal:
-                name: "GtG Advanced Missile"
-                variant: "Normal Variant"
-                lore: "'Powered by AI (technically)'"
+                name: "高级对地导弹"
+                variant: "普通"
+                lore: "'由AI发射(科技的力量!)'"
             he:
-                name: "GtG Advanced Missile HE"
-                variant: "High Explosive Variant"
-                lore: "'Very dangerous, do not touche'"
+                name: "高级对地导弹 - 高爆"
+                variant: "高爆"
+                lore: "'异常危险，禁止触摸'"
             lr:
-                name: "GtG Advanced Missile LR"
-                variant: "Long Range Variant"
-                lore: "'Im running out of lore ideas'"
+                name: "高级对地导弹 - 远距"
+                variant: "远距"
+                lore: "'我已经逃不掉了!'"
             ac:
-                name: "GtG Advanced Missile AC"
-                variant: "Accurate Variant"
-                lore: "'Pretty accurate i guess'"
+                name: "高级对地导弹 - 专精"
+                variant: "专精"
+                lore: "'我想这导弹相当精确'"
 
 specialmissiles:
     gasmissile:
-        name: "Gas Missile"
+        name: "芥子气弹"
         lore:
-            - "Cleaning Missile"
-            - "Deploys poisonous gas on hitting a target"
-        afterlore: "'Commit Timmycide.'"
+            - "清洁导弹"
+            - "击中目标时释放芥子气"
+        afterlore: "'不要忘记二战法西斯是如何对待百姓的！'"
     excavmissile:
-        name: "Excavation Missile"
+        name: "开山导弹"
         lore:
-            - "Utility Missile"
-            - "Has a large explosion radius but little damage"
-            - "Used for mining"
-        afterlore: "'Better than a 100 Pickaxes!'"
+            - "通用导弹"
+            - "爆炸半径大，但伤害小"
+            - "可用于开矿"
+        afterlore: "'它比100个钻石镐都要好!'"
     stickymissile:
-        name: "Sticky Missile"
+        name: "粘性导弹"
         lore:
-            - "Trap Missile"
-            - "A small explosion that releases cobwebs"
-        afterlore: "'Dont ask what its made of.'"
+            - "陷阱导弹"
+            - "爆炸后会在小范围内释放蜘蛛网"
+        afterlore: "'不要问它是由什么制成的'"
     icbm:
-        name: "ICBM Missile"
+        name: "洲际弹道导弹"
         lore:
-            - "Long-Range Missile"
-            - "Inter-Continental Ballistic Missile"
+            - "远程导弹"
+            - "可打击极远程目标"
         afterlore:
-            - "'Nowhere is safe.'"
+            - "'没有地方是安全的!'"
     clustermissile:
-        name: "Cluster Missile"
+        name: "集束导弹"
         lore:
-            - "Cluster Missile, Deploys many missiles before hitting"
+            - "集束导弹"
+            - "会在命中前部署更多导弹"
         afterlore:
-            - "'Removes villages faster than you can scream!'"
+            - "'移除村庄的速度比你尖叫的速度还快!'"
     napalmmissile:
-        name: "Napalm Missile"
+        name: "凝固汽油弹"
         lore:
-            - "Fire Missile"
-            - "Napalm Missile, Throws fire everywhere upon hit."
+            - "燃烧导弹"
+            - "命中后会在爆炸范围内释放火焰"
         afterlore:
-            - "'Kindergarten Remover! Tried and tested™'"
+            - "'它屡试不爽!'"
 
 
 launchers:
