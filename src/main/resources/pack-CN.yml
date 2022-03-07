@@ -11,7 +11,7 @@ messages:
             failure: "&c发射井下方必须为黑曜石"
         ground:
             create:
-                success: "已创建小型导弹发射井"
+                success: "已创建对地导弹发射井"
                 # Formatting: {type}
                 failure: "发射井下方必须为绿色混凝土"
             # Formatting: {xcoord} {ycoord} {dist}
@@ -165,7 +165,7 @@ missiles:
                 lore: "'大Timmy从来没有机会...'"
             lr:
                 name: "小型对地导弹 - 长距"
-                variant: "远距"
+                variant: "长距"
                 lore: "'遥远的Timmy从来没有机会'"
             ac:
                 name: "小型对地导弹 - 专精"
@@ -228,22 +228,22 @@ missiles:
                     - "20%的几率破坏命中的黑曜石"
                     - "'别想着去当土拨鼠!'"
     advanced:
-        lore: "高级对地导弹"
+        lore: "增强型对地导弹"
         missiles:
             normal:
-                name: "高级对地导弹"
+                name: "增强型对地导弹"
                 variant: "普通"
                 lore: "'由AI发射(科技的力量!)'"
             he:
-                name: "高级对地导弹 - 高爆"
+                name: "增强型对地导弹 - 高爆"
                 variant: "高爆"
                 lore: "'异常危险，禁止触摸'"
             lr:
-                name: "高级对地导弹 - 远距"
+                name: "增强型对地导弹 - 远距"
                 variant: "远距"
                 lore: "'我已经逃不掉了!'"
             ac:
-                name: "高级对地导弹 - 专精"
+                name: "增强型对地导弹 - 专精"
                 variant: "专精"
                 lore: "'我想这导弹相当精确'"
 
@@ -292,7 +292,7 @@ specialmissiles:
 
 launchers:
     ground:
-        name: "地对地导弹发射地井"
+        name: "对地导弹发射地井"
         lore:
             - "用于打击地面上的特定区域"
             - "使用木棍设定目标坐标"
