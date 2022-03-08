@@ -164,8 +164,8 @@ missiles:
                 variant: "高爆"
                 lore: "'大Timmy从来没有机会...'"
             lr:
-                name: "小型对地导弹 - 长距"
-                variant: "长距"
+                name: "小型对地导弹 - 远距"
+                variant: "远距"
                 lore: "'遥远的Timmy从来没有机会'"
             ac:
                 name: "小型对地导弹 - 精准"
@@ -194,8 +194,8 @@ missiles:
                 variant: "高爆"
                 lore: "'高效的清除你的敌人'"
             lr:
-                name: "对地导弹 - 长距"
-                variant: "长距"
+                name: "对地导弹 - 远距"
+                variant: "远距"
                 lore: "'高效的城市导弹'"
             ac:
                 name: "对地导弹 - 精准"
