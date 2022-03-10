@@ -1,0 +1,11 @@
+version: "1"
+rules:
+  - base: master
+    upstream: koiboi-dev:master
+    mergeMethod: merge
+    assignees:
+      - ybw0014
+      - haiman233
+    conflictReviewers:
+      - ybw0014
+      - haiman233
