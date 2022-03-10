@@ -57,15 +57,19 @@ public class GroundMissileLauncher extends SlimefunItem{
                 //Block bottom = world.getBlockAt(event.getBlock().getLocation().subtract(new Vector(0, 2, 0)));
                 if (below.getType() == Material.GREEN_CONCRETE){
                     Utils.send(event.getPlayer(), Translations.get("messages.launchers.ground.create.success"));
+                    TileState state = (TileState)event.getBlockPlaced().getState();
+                    PersistentDataContainer cont = state.getPersistentDataContainer();
+
+                    cont.set(new NamespacedKey(MissileWarfare.getInstance(), "canfire"), PersistentDataType.INTEGER, 1);
+                    state.update();
                     /*if (bottom.getType() == Material.GREEN_CONCRETE){
                         event.getPlayer().sendMessage("Created Small Launcher!");
                     }else{
                         event.getPlayer().sendMessage("Bottom Block is type: " + bottom.getType() + " It needs Type GREEN_CONCRETE");
                         event.setCancelled(true);
                     }*/
-                }else{
+                } else {
                     Utils.send(event.getPlayer(), Translations.get("messages.launchers.ground.create.failure").replace("{type}", below.getType().name()));
-                    event.setCancelled(true);
                 }
             }
         };
@@ -80,6 +84,14 @@ public class GroundMissileLauncher extends SlimefunItem{
 
     private void blockDispense(BlockDispenseEvent blockDispenseEvent, Dispenser dispenser, Block block, SlimefunItem slimefunItem) {
         blockDispenseEvent.setCancelled(true);
+
+        TileState state = (TileState)dispenser.getBlock().getState();
+        PersistentDataContainer cont = state.getPersistentDataContainer();
+
+        if (cont.get(new NamespacedKey(MissileWarfare.getInstance(), "canfire"), PersistentDataType.INTEGER) != 1){
+            MissileWarfare.getInstance().getServer().broadcastMessage("Missile at : "+dispenser.getBlock().getLocation().toVector() +" Is unable to fire: Missing GREEN_CONCRETE Below");
+        }
+
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -270,17 +282,26 @@ public class GroundMissileLauncher extends SlimefunItem{
         if (alt == null){
             alt = 120;
         }
-        if (MissileWarfare.plugin.getConfig().getBoolean("logging.logMissileShots")){
+        if (MissileWarfare.plugin.getConfig().getBoolean("logging.logMissileShots")) {
             Player result = null;
             double lastDistance = Double.MAX_VALUE;
-            for(Player p : disp.getWorld().getPlayers()) {
+            for (Player p : disp.getWorld().getPlayers()) {
                 double distance = disp.getLocation().distanceSquared(p.getLocation());
-                if(distance < lastDistance) {
+                if (distance < lastDistance) {
                     lastDistance = distance;
                     result = p;
                 }
             }
-            MissileWarfare.getInstance().getLogger().info("导弹发射 || 位于: "+disp.getBlock().getLocation()+" 目标: "+new Vector(coords[0], 0, coords[1])+" 附近玩家: "+result.getName());
+            MissileWarfare.getInstance().getLogger().info("导弹发射 || 位于: " + disp.getBlock().getLocation() + " 目标: " + new Vector(coords[0], 0, coords[1]) + " 附近玩家: " + result.getName());
+            if (MissileWarfare.getInstance().getConfig().getBoolean("logging.broadcastMissileShots")) {
+                final String playername = result.getName();
+                new BukkitRunnable(){
+                    @Override
+                    public void run() {
+                        MissileWarfare.getInstance().getServer().broadcastMessage("导弹发射! 发射井坐标: " +disp.getBlock().getLocation().toVector() + " 附近玩家: " + playername);
+                    }
+                }.runTaskLater(MissileWarfare.getInstance(), 20L *MissileWarfare.getInstance().getConfig().getLong("logging.waitTimeBeforeBroadcast"));
+            }
         }
         MissileController _missile = new MissileController(true, disp.getBlock().getLocation().add(new Vector(0.5, 1.35, 0.5)).toVector(), new Vector(coords[0], 0, coords[1]), (float) missile.speed, disp.getBlock().getWorld(), missile.power, missile.accuracy, missile.type, alt);
         _missile.FireMissile();

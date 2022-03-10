@@ -42,29 +42,21 @@ public class MissileWarfare extends JavaPlugin implements SlimefunAddon {
         }
         File lang = new File(getDataFolder()+"/lang");
         if (!lang.exists()) {
-            String[] loadedpacks = new String[]{"pack-CN"};
-            for (String pack : loadedpacks) {
-                saveResource(pack + ".yml", false);
-            }
-
-            lang.mkdir();
-
-            File datafolder = getDataFolder();
-            for (File file : datafolder.listFiles()){
-                if (file.getName().startsWith("pack-")){
-                    try {
-                        Files.move(file.toPath(), new File(lang.getPath(), file.getName()).toPath());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
+            generateLangPacks(lang);
         }
         Translations.setup(new Config(getDataFolder()+"/lang/"+cfg.getString("translation-pack")+".yml"));
 
         PlayerID.loadPlayers(saveFile);
         MissileConfig.setup(cfg);
-        CustomItems.setup();
+        try {
+            CustomItems.setup();
+        } catch (IndexOutOfBoundsException e){
+            getLogger().warning(e.toString());
+            getLogger().warning("=== !语言文件无效, 将使用默认的语言文件! ===");
+            getLogger().warning("已创建 brokenLang 目录，无效的语言文件将存放于此");
+            lang.renameTo(new File(getDataFolder()+"/brokenLang/"));
+            generateLangPacks(lang);
+        }
 
         new BukkitRunnable() {
             @Override
@@ -126,5 +118,25 @@ public class MissileWarfare extends JavaPlugin implements SlimefunAddon {
          * If you are using your main class for this, simply return "this".
          */
         return this;
+    }
+
+    public void generateLangPacks(File lang){
+        String[] loadedpacks = new String[]{"pack-EN"};
+        for (String pack : loadedpacks) {
+            saveResource(pack + ".yml", false);
+        }
+
+        lang.mkdir();
+
+        File datafolder = getDataFolder();
+        for (File file : datafolder.listFiles()){
+            if (file.getName().startsWith("pack-")){
+                try {
+                    Files.move(file.toPath(), new File(lang.getPath(), file.getName()).toPath());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }
