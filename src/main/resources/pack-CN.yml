@@ -333,6 +333,8 @@ other:
             - "不要透露你的ID!"
 
 guidebook:
+    title: "导弹食用指南"
+    author: "haiman233" # Feel free to put your name here | E.G: author: "kiease"
     homepage:
         title: "导弹科技"
         subtitle: "这本向导书是介绍导弹科技的"
@@ -374,3 +376,13 @@ guidebook:
             - "敌我识别系统可以用于让部分发射井忽略指定的玩家"
             - "使用敌我识别系统配置器以进行设置"
             - "[BOLD]敌我识别系统使用的ID是全服通用的，不要让别人知道你的ID!"
+
+radar:
+    name: "导弹雷达"
+    lore: "当700格内有导弹时发出红石信号"
+
+missiledesc:
+    range: "范围: "
+    power: "威力: "
+    speed: "速度: "
+    accuracy: "精度: {blocks} 格内"
