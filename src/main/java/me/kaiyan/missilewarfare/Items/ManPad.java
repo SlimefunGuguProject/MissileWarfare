@@ -8,6 +8,7 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import me.kaiyan.missilewarfare.MissileWarfare;
 import me.kaiyan.missilewarfare.Missiles.MissileController;
+import me.kaiyan.missilewarfare.Translations;
 import me.kaiyan.missilewarfare.VariantsAPI;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ChatMessageType;
@@ -15,14 +16,17 @@ import net.md_5.bungee.api.chat.ComponentBuilder;
 import org.bukkit.Instrument;
 import org.bukkit.Location;
 import org.bukkit.Note;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
+import org.slimefunguguproject.misslewarfare.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ManPad extends SlimefunItem {
+    public static List<Player> active = new ArrayList<>();
     public final int range = 300*300;
 
     public ManPad(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
@@ -33,8 +37,9 @@ public class ManPad extends SlimefunItem {
 
     private void itemUse(PlayerRightClickEvent event) {
         SlimefunItem manpad = event.getSlimefunItem().get();
-        if (event.getPlayer().isSneaking()) {
-            event.getPlayer().sendMessage("瞄准模式...");
+        if (event.getPlayer().isSneaking() && !active.contains(event.getPlayer())) {
+            Utils.send(event.getPlayer(), Translations.get("messages.manpad.locking"));
+            active.add(event.getPlayer());
             new BukkitRunnable() {
                 public int scanLinepos = 0;
                 public boolean scanLineReturn = false;
@@ -43,9 +48,9 @@ public class ManPad extends SlimefunItem {
                 public void run() {
                     //check if changed weapon
                     if (!event.getSlimefunItem().isPresent()) {
-                        event.getPlayer().sendMessage("取消操作: 更换手持物品");
+                        Utils.send(event.getPlayer(), Translations.get("messages.manpad.itemchanged"));
                     } else if (event.getSlimefunItem().get() != manpad) {
-                        event.getPlayer().sendMessage("取消操作: 更换手持物品");
+                        Utils.send(event.getPlayer(), Translations.get("messages.manpad.itemchanged"));
                     }
                     MissileController lockedmissile = null;
                     //Get Missiles In Range
@@ -116,9 +121,10 @@ public class ManPad extends SlimefunItem {
                     // Check if sneaking
                     if (!event.getPlayer().isSneaking()) {
                         if (lockedmissile == null){
-                            event.getPlayer().sendMessage("发射失败: 无目标");
+                            Utils.send(event.getPlayer(), Translations.get("messages.manpad.notarget"));
                             this.cancel();
                         } else {
+                            active.remove(event.getPlayer());
                             MissileController missile = new MissileController(false, event.getPlayer().getLocation().toVector(), lockedmissile.pos, 5, event.getPlayer().getWorld(), 3, 0, 1, event.getPlayer().getLocation().getDirection());
                             missile.FireMissileAtMissile(lockedmissile);
                             event.getPlayer().getInventory().remove(manpad.getItem());

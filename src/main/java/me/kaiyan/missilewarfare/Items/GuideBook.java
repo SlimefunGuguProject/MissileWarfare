@@ -4,6 +4,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import me.kaiyan.missilewarfare.Translations;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -16,24 +17,47 @@ public class GuideBook extends SlimefunItem {
         super(itemGroup, item, recipeType, recipe);
         BookMeta meta = (BookMeta) item.getItemMeta();
 
-        meta.setTitle("导弹食用手册");
-        meta.setAuthor("Kaiyan2006");
+        meta.setTitle(ChatColor.translateAlternateColorCodes('&', Translations.get("guidebook.title")));
+        meta.setAuthor(ChatColor.translateAlternateColorCodes('&', Translations.get("guidebook.author")));
 
-        BaseComponent[] homepage = new ComponentBuilder(ChatColor.BOLD+"导弹科技\n").color(ChatColor.BOLD)
-                .append("这本向导书是介绍导弹科技的\n")
-                .append(ChatColor.BOLD+"目录:\n")
-                .append(ChatColor.BLUE+"导弹发射井\n").event(new ClickEvent(ClickEvent.Action.CHANGE_PAGE, "2"))
-                .append(ChatColor.BLUE+"防空发射井\n").event(new ClickEvent(ClickEvent.Action.CHANGE_PAGE, "3"))
+        String[] content = Translations.getarr("guidebook.homepage.content");
+
+        BaseComponent[] homepage = new ComponentBuilder(ChatColor.BOLD+ Translations.get("guidebook.homepage.title") +"\n").color(ChatColor.BOLD)
+                .append(Translations.get("guidebook.homepage.subtitle")+"\n")
+                .append(ChatColor.BOLD+Translations.get("guidebook.homepage.contenttitle")+"\n")
+                .append(ChatColor.BLUE+""+ChatColor.UNDERLINE+content[0]+"\n").event(new ClickEvent(ClickEvent.Action.CHANGE_PAGE, "2"))
+                .append(ChatColor.BLUE+""+ChatColor.UNDERLINE+content[1]+"\n").event(new ClickEvent(ClickEvent.Action.CHANGE_PAGE, "3"))
+                .append(ChatColor.BLUE+""+ChatColor.UNDERLINE+content[2]+"\n").event(new ClickEvent(ClickEvent.Action.CHANGE_PAGE, "4"))
+                .append(ChatColor.BLUE+""+ChatColor.UNDERLINE+content[3]+"").event(new ClickEvent(ClickEvent.Action.CHANGE_PAGE, "5"))
                 .create();
-        BaseComponent[] groundMissileLauncher = new ComponentBuilder(ChatColor.BOLD+"导弹发射井\n")
-                .append("导弹发射井可以向给定坐标发射导弹\n\n")
-                .append("手持木棍右击以设置发射坐标\n")
-                .append("手持烈焰棒右击以设置")
-                .append("巡航高度\n")
+
+        BaseComponent[] groundMissileLauncher = new ComponentBuilder(ChatColor.BOLD+Translations.get("guidebook.groundlauncherpage.title")+"\n")
+                .append(Translations.getPage("guidebook.groundlauncherpage"))
                 .create();
+
+        BaseComponent[] antiMissileLauncher = new ComponentBuilder(ChatColor.BOLD+Translations.get("guidebook.antimissilepage.title")+"\n")
+                .append(Translations.getPage("guidebook.antimissilepage"))
+                .create();
+
+        BaseComponent[] manpad = new ComponentBuilder(ChatColor.BOLD+Translations.get("guidebook.manpadpage.title")+"\n")
+                .append(Translations.getPage("guidebook.manpadpage"))
+                .create();
+
+        BaseComponent[] antiElytraLaunchers = new ComponentBuilder(ChatColor.BOLD+Translations.get("guidebook.antielytrapage.title")+"\n")
+                .append(Translations.getPage("guidebook.antielytrapage"))
+                .create();
+
+        BaseComponent[] playerID = new ComponentBuilder(ChatColor.BOLD+Translations.get("guidebook.playeridpage")+"\n")
+                .append(Translations.getPage("guidebook.playeridpage"))
+                .create();
+
 
         meta.spigot().addPage(homepage);
         meta.spigot().addPage(groundMissileLauncher);
+        meta.spigot().addPage(antiMissileLauncher);
+        meta.spigot().addPage(manpad);
+        meta.spigot().addPage(antiElytraLaunchers);
+        meta.spigot().addPage(playerID);
 
         item.setItemMeta(meta);
     }

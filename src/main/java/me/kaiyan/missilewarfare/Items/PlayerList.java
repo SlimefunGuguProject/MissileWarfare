@@ -7,8 +7,10 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemDropHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.common.ChatColors;
 import me.kaiyan.missilewarfare.MissileWarfare;
 import me.kaiyan.missilewarfare.PlayerID;
+import me.kaiyan.missilewarfare.Translations;
 import org.bukkit.NamespacedKey;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.conversations.*;
@@ -19,6 +21,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import org.slimefunguguproject.misslewarfare.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,15 +38,18 @@ public class PlayerList extends SlimefunItem {
     }
 
     private boolean itemDrop(PlayerDropItemEvent event, Player player, Item item) {
-        if (!player.isSneaking()){
+        if (SlimefunItem.getByItem(item.getItemStack()) == null){
+            return true;
+        }
+        if (!player.isSneaking() && SlimefunItem.getByItem(item.getItemStack()).getId().equals("PLAYERLIST")){
             event.setCancelled(true);
 
             NamespacedKey key = new NamespacedKey(MissileWarfare.getInstance(), "id");
             ItemMeta meta = item.getItemStack().getItemMeta();
             PersistentDataContainer cont = meta.getPersistentDataContainer();
 
-            cont.set(key, PersistentDataType.STRING, null);
-            player.sendMessage("Reset Key");
+            cont.remove(key);
+            Utils.send(player, Translations.get("messages.playerlist.resetkey"));
             return false;
         }
         return true;
@@ -57,19 +63,19 @@ public class PlayerList extends SlimefunItem {
         try{
             if (event.getSlimefunBlock().isPresent()){
                 if (event.getSlimefunBlock().get().getId().equals("ANTIELYTRALAUNCHER")){
-                    event.getPlayer().sendMessage("Added ID "+cont.get(key, PersistentDataType.STRING)+"");
+                    Utils.send(event.getPlayer(), Translations.get("messages.playerlist.addedkey")+cont.get(key, PersistentDataType.STRING)+"");
                     return;
                 }
             }
         } catch (NullPointerException e){
-            event.getPlayer().sendMessage("Couldn't add ID to the launcher, No ID assigned to this PlayerList");
+            Utils.send(event.getPlayer(), Translations.get("messages.playerlist.noid"));
             return;
         }
         if (!event.getSlimefunBlock().isPresent()) {
             Prompt askToWrite = new StringPrompt() {
                 @Override
                 public String getPromptText(ConversationContext conversationContext) {
-                    return "What player would you like to add? Say exit to exit";
+                    return ChatColors.color(Translations.get("messages.playerlist.askwriteprompt"));
                 }
 
                 @Override
@@ -78,11 +84,11 @@ public class PlayerList extends SlimefunItem {
                         List<OfflinePlayer> players = PlayerID.players.get(cont.get(key, PersistentDataType.STRING));
                         players.add(MissileWarfare.getInstance().getServer().getPlayerExact(s));
                         PlayerID.players.put(cont.get(key, PersistentDataType.STRING), players);
-                        conversationContext.getForWhom().sendRawMessage("Added player : " + MissileWarfare.getInstance().getServer().getPlayerExact(s));
+                        conversationContext.getForWhom().sendRawMessage(ChatColors.color(Translations.get("messages.playerlist.addedplayer") + MissileWarfare.getInstance().getServer().getPlayerExact(s)));
                         return END_OF_CONVERSATION;
                     } catch (NullPointerException e) {
                         e.printStackTrace();
-                        conversationContext.getForWhom().sendRawMessage("INVALID PLAYER");
+                        conversationContext.getForWhom().sendRawMessage(ChatColors.color(Translations.get("messages.playerlist.invalidplayer")));
                         return END_OF_CONVERSATION;
                     }
                 }
@@ -90,7 +96,7 @@ public class PlayerList extends SlimefunItem {
             Prompt askToRemove = new StringPrompt() {
                 @Override
                 public String getPromptText(ConversationContext conversationContext) {
-                    return "What player would you like to remove?";
+                    return ChatColors.color(Translations.get("messages.playerlist.removeplayer"));
                 }
 
                 @Override
@@ -99,11 +105,11 @@ public class PlayerList extends SlimefunItem {
                         List<OfflinePlayer> players = PlayerID.players.get(cont.get(key, PersistentDataType.STRING));
                         players.remove(MissileWarfare.getInstance().getServer().getPlayerExact(s));
                         PlayerID.players.put(cont.get(key, PersistentDataType.STRING), players);
-                        conversationContext.getForWhom().sendRawMessage("Removed player : " + MissileWarfare.getInstance().getServer().getPlayerExact(s));
+                        conversationContext.getForWhom().sendRawMessage(ChatColors.color(Translations.get("messages.playerlist.removedplayer") + MissileWarfare.getInstance().getServer().getPlayerExact(s)));
                         return END_OF_CONVERSATION;
                     } catch (NullPointerException e) {
                         e.printStackTrace();
-                        conversationContext.getForWhom().sendRawMessage("INVALID PLAYER");
+                        conversationContext.getForWhom().sendRawMessage(ChatColors.color(Translations.get("messages.playerlist.removeplayer")));
                         return END_OF_CONVERSATION;
                     }
                 }
@@ -112,27 +118,29 @@ public class PlayerList extends SlimefunItem {
             Prompt askToRead = new StringPrompt() {
                 @Override
                 public String getPromptText(ConversationContext conversationContext) {
-                    return "Say 'read' to see the players associated with this ID, Say 'add' to add a player, Say 'remove' to remove a player, Say 'exit' to exit";
+                    return ChatColors.color(Translations.get("messages.playerlist.asktoread"));
                 }
 
                 @Override
                 public Prompt acceptInput(ConversationContext conversationContext, String s) {
-                    switch (s) {
-                        case "read":
-                            String out = "Players: ";
-                            List<String> players = new ArrayList<>();
-                            for (OfflinePlayer player : PlayerID.players.get(cont.get(key, PersistentDataType.STRING))) {
-                                players.add(player.getName());
-                            }
-                            out += players;
-                            conversationContext.getForWhom().sendRawMessage(out);
-                            return END_OF_CONVERSATION;
-                        case "add":
-                            return askToWrite;
-                        case "remove":
-                            return askToRemove;
+                    String read = Translations.get("messages.playerlist.inputs.read");
+                    String add = Translations.get("messages.playerlist.inputs.add");
+                    String remove = Translations.get("messages.playerlist.inputs.remove");
+                    if (s.equals(read)) {
+                        String out = "&a玩家: &b";
+                        List<String> players = new ArrayList<>();
+                        for (OfflinePlayer player : PlayerID.players.get(cont.get(key, PersistentDataType.STRING))) {
+                            players.add(player.getName());
+                        }
+                        out += players;
+                        conversationContext.getForWhom().sendRawMessage(ChatColors.color(out));
+                        return END_OF_CONVERSATION;
+                    }else if (s.equals(add)) {
+                        return askToWrite;
+                    }else if (s.equals(remove)){
+                        return askToRemove;
                     }
-                    conversationContext.getForWhom().sendRawMessage("Closing Edit Mode...");
+                    conversationContext.getForWhom().sendRawMessage(ChatColors.color(Translations.get("messages.playerlist.incorrectinput")));
                     return END_OF_CONVERSATION;
                 }
             };
@@ -140,7 +148,7 @@ public class PlayerList extends SlimefunItem {
             Prompt askForID = new StringPrompt() {
                 @Override
                 public String getPromptText(ConversationContext conversationContext) {
-                    return "Input ID to create, say exit to leave";
+                    return ChatColors.color(Translations.get("messages.playerlist.askinputid"));
                 }
 
                 @Override
@@ -150,15 +158,16 @@ public class PlayerList extends SlimefunItem {
                     }
                     if (PlayerID.players.get(s) == null) {
                         PlayerID.players.put(s, new ArrayList<>());
-                        conversationContext.getForWhom().sendRawMessage("Created ID : " + s + ", You can now write to it");
+                        conversationContext.getForWhom().sendRawMessage(ChatColors.color(Translations.get("messages.playerlist.createdid").replace("{id}", s)));
                         cont.set(key, PersistentDataType.STRING, s);
                         event.getItem().setItemMeta(meta);
                         return END_OF_CONVERSATION;
                     } else {
-                        conversationContext.getForWhom().sendRawMessage("Gotten ID");
+                        conversationContext.getForWhom().sendRawMessage(ChatColors.color(Translations.get("messages.playerlist.gottenid")));
                         cont.set(key, PersistentDataType.STRING, s);
                         List<String> lore = meta.getLore();
                         lore.add("ID: " + s);
+                        meta.setLore(lore);
                         event.getItem().setItemMeta(meta);
                         return askToRead;
                     }
@@ -168,19 +177,19 @@ public class PlayerList extends SlimefunItem {
             if (cont.get(key, PersistentDataType.STRING) == null) {
                 ConversationFactory cf = new ConversationFactory(MissileWarfare.getInstance());
                 Conversation conversation = cf.withFirstPrompt(askForID)
-                        .withLocalEcho(false)
-                        .withEscapeSequence("exit")
-                        .withTimeout(20)
-                        .buildConversation(event.getPlayer());
+                    .withLocalEcho(false)
+                    .withEscapeSequence("exit")
+                    .withTimeout(20)
+                    .buildConversation(event.getPlayer());
                 conversation.begin();
                 event.cancel();
             } else {
                 ConversationFactory cf = new ConversationFactory(MissileWarfare.getInstance());
                 Conversation conversation = cf.withFirstPrompt(askToRead)
-                        .withLocalEcho(false)
-                        .withEscapeSequence("exit")
-                        .withTimeout(20)
-                        .buildConversation(event.getPlayer());
+                    .withLocalEcho(false)
+                    .withEscapeSequence("exit")
+                    .withTimeout(20)
+                    .buildConversation(event.getPlayer());
                 conversation.begin();
                 event.cancel();
             }
