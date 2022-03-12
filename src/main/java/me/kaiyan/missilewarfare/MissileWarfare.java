@@ -44,13 +44,12 @@ public class MissileWarfare extends JavaPlugin implements SlimefunAddon {
         if (!lang.exists()) {
             generateLangPacks(lang);
         }
-        Translations.setup(new Config(getDataFolder()+"/lang/"+cfg.getString("translation-pack")+".yml"));
-
-        PlayerID.loadPlayers(saveFile);
-        MissileConfig.setup(cfg);
         try {
+            Translations.setup(new Config(getDataFolder()+"/lang/"+cfg.getString("translation-pack")+".yml"));
+            PlayerID.loadPlayers(saveFile);
+            MissileConfig.setup(cfg);
             CustomItems.setup();
-        } catch (IndexOutOfBoundsException e){
+        } catch (Exception e){
             getLogger().warning(e.toString());
             getLogger().warning("=== !语言文件无效, 将使用默认的语言文件! ===");
             getLogger().warning("已创建 brokenLang 目录，无效的语言文件将存放于此");
@@ -121,7 +120,7 @@ public class MissileWarfare extends JavaPlugin implements SlimefunAddon {
     }
 
     public void generateLangPacks(File lang){
-        String[] loadedpacks = new String[]{"pack-EN"};
+        String[] loadedpacks = MissileWarfare.getInstance().getConfig().getStringList("saved-packs").toArray(new String[0]);
         for (String pack : loadedpacks) {
             saveResource(pack + ".yml", false);
         }
