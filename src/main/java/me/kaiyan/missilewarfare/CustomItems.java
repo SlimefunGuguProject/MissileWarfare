@@ -384,7 +384,7 @@ public class CustomItems {
                 null, null, null,
                 null, null, null
         };
-        SlimefunItem chlorine = new SlimefunItem(group, chlorinestack, RecipeType.ORE_WASHER, chlorinerecipe);
+        SlimefunItem chlorine = new SlimefunItem(group, chlorinestack, RecipeType.GRIND_STONE, chlorinerecipe);
         RecipeType.ORE_WASHER.register(chlorinerecipe, chlorinestack);
         chlorine.addItemHandler((ItemUseHandler) playerRightClickEvent -> playerRightClickEvent.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 80, 2)));
         //</editor-fold>
