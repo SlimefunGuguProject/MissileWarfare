@@ -68,10 +68,6 @@
                             <pattern>org.bstats</pattern>
                             <shadedPattern>me.kaiyan.missilewarfare.bstats</shadedPattern>
                         </relocation>
-                        <relocation>
-                            <pattern>net.guizhanss.guizhanlib</pattern>
-                            <shadedPattern>me.kaiyan.missilewarfare.guizhanlib</shadedPattern>
-                        </relocation>
                     </relocations>
                 </configuration>
                 <executions>
@@ -145,9 +141,9 @@
 
         <dependency>
             <groupId>net.guizhanss</groupId>
-            <artifactId>GuizhanLib</artifactId>
-            <version>0.8.5</version>
-            <scope>compile</scope>
+            <artifactId>GuizhanLibPlugin</artifactId>
+            <version>1.4.0</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>
