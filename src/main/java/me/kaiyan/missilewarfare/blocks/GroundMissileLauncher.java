@@ -1,4 +1,4 @@
-package me.kaiyan.missilewarfare.Blocks;
+package me.kaiyan.missilewarfare.blocks;
 
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
@@ -10,11 +10,11 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.common.ChatColors;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.ItemUtils;
-import me.kaiyan.missilewarfare.Items.MissileClass;
+import me.kaiyan.missilewarfare.items.MissileClass;
 import me.kaiyan.missilewarfare.MissileWarfare;
-import me.kaiyan.missilewarfare.Missiles.MissileController;
-import me.kaiyan.missilewarfare.Translations;
-import me.kaiyan.missilewarfare.VariantsAPI;
+import me.kaiyan.missilewarfare.missiles.MissileController;
+import me.kaiyan.missilewarfare.util.Translations;
+import me.kaiyan.missilewarfare.util.VariantsAPI;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -88,7 +88,7 @@ public class GroundMissileLauncher extends SlimefunItem{
         TileState state = (TileState)dispenser.getBlock().getState();
         PersistentDataContainer cont = state.getPersistentDataContainer();
 
-        if (cont.get(new NamespacedKey(MissileWarfare.getInstance(), "canfire"), PersistentDataType.INTEGER) != 1){
+        if (cont.has(new NamespacedKey(MissileWarfare.getInstance(), "canfire"), PersistentDataType.INTEGER) && cont.get(new NamespacedKey(MissileWarfare.getInstance(), "canfire"), PersistentDataType.INTEGER) != 1){
             MissileWarfare.getInstance().getServer().broadcastMessage("Missile at : "+dispenser.getBlock().getLocation().toVector() +" Is unable to fire: Missing GREEN_CONCRETE Below");
         }
 
@@ -118,9 +118,9 @@ public class GroundMissileLauncher extends SlimefunItem{
             } catch (NullPointerException e){
                 cont.set(new NamespacedKey(MissileWarfare.getInstance(), "coords"), PersistentDataType.INTEGER_ARRAY, new int[]{0, 0});
                 state.update();
+                event.getPlayer().sendMessage(ChatColor.GREEN+"Setup launcher, right click again to set coordinates!");
             }
             try {
-                if (cont.get(new NamespacedKey(MissileWarfare.getInstance(), "Conversing"), PersistentDataType.INTEGER) == 0) {
                     Prompt askCoordY = new StringPrompt() {
                         @Override
                         public String getPromptText(ConversationContext conversationContext) {
@@ -133,12 +133,10 @@ public class GroundMissileLauncher extends SlimefunItem{
                                 cont.set(new NamespacedKey(MissileWarfare.getInstance(), "coords"), PersistentDataType.INTEGER_ARRAY, new int[]{cont.get(new NamespacedKey(MissileWarfare.getInstance(), "coords"), PersistentDataType.INTEGER_ARRAY)[0], Integer.parseInt(s)});
                             } catch (NumberFormatException e) {
                                 conversationContext.getForWhom().sendRawMessage(Translations.get("messages.launchers.ground.setting.notanumber"));
-                                cont.set(new NamespacedKey(MissileWarfare.getInstance(), "Conversing"), PersistentDataType.INTEGER, 0);
                                 state.update();
                                 return END_OF_CONVERSATION;
                             }
                             conversationContext.getForWhom().sendRawMessage(ChatColors.color("&a已设置目标位置 Z: &b" + Integer.parseInt(s)));
-                            cont.set(new NamespacedKey(MissileWarfare.getInstance(), "Conversing"), PersistentDataType.INTEGER, 0);
                             state.update();
                             return END_OF_CONVERSATION;
                         }
@@ -155,7 +153,6 @@ public class GroundMissileLauncher extends SlimefunItem{
                                 cont.set(new NamespacedKey(MissileWarfare.getInstance(), "coords"), PersistentDataType.INTEGER_ARRAY, new int[]{Integer.parseInt(s), 0});
                             } catch (NumberFormatException e) {
                                 conversationContext.getForWhom().sendRawMessage(ChatColors.color(Translations.get("messages.launchers.ground.setting.notacoord")));
-                                cont.set(new NamespacedKey(MissileWarfare.getInstance(), "Conversing"), PersistentDataType.INTEGER, 0);
                                 state.update();
                                 return END_OF_CONVERSATION;
                             }
@@ -171,10 +168,7 @@ public class GroundMissileLauncher extends SlimefunItem{
                         .withTimeout(20)
                         .buildConversation(event.getPlayer());
                     conversation.begin();
-                    cont.set(new NamespacedKey(MissileWarfare.getInstance(), "Conversing"), PersistentDataType.INTEGER, 1);
-                }
             } catch (NullPointerException e){
-                cont.set(new NamespacedKey(MissileWarfare.getInstance(), "Conversing"), PersistentDataType.INTEGER, 0);
                 state.update();
             }
         } else if (event.getItem().getType() == Material.BLAZE_ROD){
@@ -183,46 +177,39 @@ public class GroundMissileLauncher extends SlimefunItem{
             PersistentDataContainer cont = state.getPersistentDataContainer();
 
             try{
-                if (cont.get(new NamespacedKey(MissileWarfare.getInstance(), "Conversing"), PersistentDataType.INTEGER) == 0) {
-                    Prompt askCruiseAlt = new StringPrompt() {
-                        @Override
-                        public String getPromptText(ConversationContext conversationContext) {
-                            return ChatColors.color("&e输入巡航高度(Y)，输入&bexit&e以取消设置");
-                        }
+                Prompt askCruiseAlt = new StringPrompt() {
+                    @Override
+                    public String getPromptText(ConversationContext conversationContext) {
+                        return ChatColors.color("&e输入巡航高度(Y)，输入&bexit&e以取消设置");
+                    }
 
-                        @Override
-                        public Prompt acceptInput(ConversationContext conversationContext, String s) {
-                            try {
-                                cont.set(new NamespacedKey(MissileWarfare.getInstance(), "alt"), PersistentDataType.INTEGER, Integer.valueOf(s));
-                            } catch (NumberFormatException e) {
-                                conversationContext.getForWhom().sendRawMessage(ChatColors.color(Translations.get("messages.launchers.ground.setting.notanumber")));
-                                cont.set(new NamespacedKey(MissileWarfare.getInstance(), "Conversing"), PersistentDataType.INTEGER, 0);
-                                state.update();
-                                return END_OF_CONVERSATION;
-                            }
-                            conversationContext.getForWhom().sendRawMessage(ChatColors.color(Translations.get("messages.launchers.ground.setting.cruisealt") + Integer.parseInt(s)));
-                            cont.set(new NamespacedKey(MissileWarfare.getInstance(), "Conversing"), PersistentDataType.INTEGER, 0);
+                    @Override
+                    public Prompt acceptInput(ConversationContext conversationContext, String s) {
+                        try {
+                            cont.set(new NamespacedKey(MissileWarfare.getInstance(), "alt"), PersistentDataType.INTEGER, Integer.valueOf(s));
+                        } catch (NumberFormatException e) {
+                            conversationContext.getForWhom().sendRawMessage(ChatColors.color(Translations.get("messages.launchers.ground.setting.notanumber")));
                             state.update();
                             return END_OF_CONVERSATION;
                         }
-                    };
-                    ConversationFactory cf = new ConversationFactory(MissileWarfare.getInstance());
-                    Conversation conversation = cf.withFirstPrompt(askCruiseAlt)
+                        conversationContext.getForWhom().sendRawMessage(ChatColors.color(Translations.get("messages.launchers.ground.setting.cruisealt") + Integer.parseInt(s)));
+                        state.update();
+                        return END_OF_CONVERSATION;
+                    }
+                };
+                ConversationFactory cf = new ConversationFactory(MissileWarfare.getInstance());
+                Conversation conversation = cf.withFirstPrompt(askCruiseAlt)
                         .withLocalEcho(false)
                         .withEscapeSequence("exit")
                         .withTimeout(20)
                         .buildConversation(event.getPlayer());
-                    conversation.begin();
-                }
+                conversation.begin();
             } catch (NullPointerException e){
-                cont.set(new NamespacedKey(MissileWarfare.getInstance(), "Conversing"), PersistentDataType.INTEGER, 0);
                 state.update();
             }
         } else if (SlimefunItem.getByItem(event.getItem()) == SlimefunItem.getById("PLAYERLIST")){
             event.cancel();
             TileState state = (TileState) event.getClickedBlock().get().getBlockData();
-            PersistentDataContainer cont = state.getPersistentDataContainer();
-            cont.set(new NamespacedKey(MissileWarfare.getInstance(), "groupid"), PersistentDataType.STRING, event.getItem().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(MissileWarfare.getInstance(), "id"), PersistentDataType.STRING));
             state.update();
         }
     }
