@@ -117,12 +117,12 @@ missiles:
 
 mine:
     explosivepower: 8
-    # Amount of random damage to apply to the receiving player
+    # 随机伤害的范围
     maxranddamage: 10
 
-#set this to the name of a pack in the /lang folder without a .yml
-translation-pack: pack-EN
-#Dont edit, imports lang packs on first start
+# 语言包
+translation-pack: pack-CN
+# 不要编辑
 saved-packs:
     - pack-EN
     - pack-NL
@@ -130,19 +130,19 @@ saved-packs:
     - pack-TW
     - pack-FR
 
-# chance for anti missile missile to successfully fire.
+# 防空导弹成功发射的几率
 AA-missile-success: 0.6
 
 logging:
-    # Sends a message to console on missile shot :O
+    # 是否在控制台中记录导弹发射
     logMissileShots: true
-    # BROADCASTS TO ALL PLAYERS THAT A MISSILE WAS SHOT
+    # 是否对所有玩家广播导弹发射
     broadcastMissileShots: false
-    # Seconds to wait before broadcasting the missile being shot
+    # 广播导弹发射延迟的秒数
     waitTimeBeforeBroadcast: 20
 
 other:
-    #How long until cleanup of lost armour stands (ticks)
+    # 清理盔甲架的周期（MC刻）
     cleanup-wait-time: 1200
 
 options:

@@ -10,6 +10,7 @@ import me.kaiyan.missilewarfare.integrations.TownyLoader;
 import me.kaiyan.missilewarfare.integrations.WorldGuardLoader;
 import me.kaiyan.missilewarfare.util.PlayerID;
 import me.kaiyan.missilewarfare.util.Translations;
+import net.guizhanss.guizhanlibplugin.updater.GuizhanUpdater;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SingleLineChart;
 import org.bukkit.World;
@@ -23,6 +24,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 public class MissileWarfare extends JavaPlugin implements SlimefunAddon {
     public static MissileWarfare plugin;
@@ -35,6 +37,13 @@ public class MissileWarfare extends JavaPlugin implements SlimefunAddon {
 
     @Override
     public void onEnable() {
+        if (!getServer().getPluginManager().isPluginEnabled("GuizhanLibPlugin")) {
+            getLogger().log(Level.SEVERE, "本插件需要 鬼斩前置库插件(GuizhanLibPlugin) 才能运行!");
+            getLogger().log(Level.SEVERE, "从此处下载: https://50l.cc/gzlib");
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
+
         int pluginId = 14904; // <-- Replace with the id of your plugin!
         metrics = new Metrics(this, pluginId);
 
@@ -49,7 +58,7 @@ public class MissileWarfare extends JavaPlugin implements SlimefunAddon {
             return blocks;
         }));
 
-        getLogger().info("Missile Warfare Starting Up!");
+        getLogger().info("导弹科技加载中...");
 
         activemissiles = new ArrayList<>();
         plugin = this;
@@ -73,8 +82,8 @@ public class MissileWarfare extends JavaPlugin implements SlimefunAddon {
             CustomItems.setup();
         } catch (Exception e){
             getLogger().warning(e.toString());
-            getLogger().warning("=== !LANG PACK INVALID, REVERTING TO EN LANG PACK! ===");
-            getLogger().warning("/brokenLang/ created, the invalid langpack is in there");
+            getLogger().warning("=== !语言包无效，正在使用默认语言包！ ===");
+            getLogger().warning("已创建 /brokenLang/ 文件夹并放入无效的语言包。");
             lang.renameTo(new File(getDataFolder()+"/brokenLang/"));
             generateLangPacks(lang);
         }   
@@ -103,7 +112,7 @@ public class MissileWarfare extends JavaPlugin implements SlimefunAddon {
             }
         }.runTaskTimer(this, 0, cfg.getInt("other.cleanup-wait-time"));
         
-        getLogger().info("Checking For Worldguard");
+        getLogger().info("正在检查保护插件...");
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -117,6 +126,10 @@ public class MissileWarfare extends JavaPlugin implements SlimefunAddon {
         }.runTaskLater(this, 0);
 
         getServer().getPluginManager().registerEvents(new ExplosionEventListener(), this);
+
+        if (getConfig().getBoolean("options.auto-update") && getDescription().getVersion().startsWith("Build")) {
+            GuizhanUpdater.start(this, getFile(), "SlimefunGuguProject", "MissileWarfare", "master");
+        }
     }
 
     public static MissileWarfare getInstance(){

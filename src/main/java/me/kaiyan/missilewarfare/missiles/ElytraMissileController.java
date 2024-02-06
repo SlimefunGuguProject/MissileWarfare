@@ -128,15 +128,15 @@ public class ElytraMissileController {
         if (!player.isGliding()){
             ComponentBuilder builder = new ComponentBuilder("");
             if (loosetime <= System.currentTimeMillis()){
-                builder.append("!!! LOST MISSILE !!!").color(ChatColor.DARK_GREEN);
+                builder.append("!!! 导弹失去目标 !!!").color(ChatColor.DARK_GREEN);
             } else {
-                builder.append("Losing Missile...").color(ChatColor.GREEN);
+                builder.append("导弹失去目标...").color(ChatColor.GREEN);
             }
             player.spigot().sendMessage(ChatMessageType.ACTION_BAR, builder.create());
         } else {
             ComponentBuilder builder = new ComponentBuilder("");
 
-            builder.append("!! MISSILE INCOMING !!").bold(true).color(ChatColor.DARK_RED);
+            builder.append("!! 导弹来袭 !!").bold(true).color(ChatColor.DARK_RED);
 
             player.spigot().sendMessage(ChatMessageType.ACTION_BAR, builder.create());
         }
