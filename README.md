@@ -2,11 +2,7 @@
 
 ## 下载
 
-<p align="center">
-  <a href="https://builds.guizhanss.com/SlimefunGuguProject/MissileWarfare/master">
-    <img src="https://builds.guizhanss.com/f/SlimefunGuguProject/MissileWarfare/master/badge.svg" alt="Build status"/>
-  </a>
-</p>
+[下载 MissileWarfare](https://resources.guizhanss.com/plugin/MissileWarfare)
 
 ## 简介
 
@@ -34,4 +30,3 @@
 |--|--|--|
 |Original Author| pain.#2883 | [koiboi-dev](https://github.com/koiboi-dev) |
 | Current Maintainer and Developer | Colonel Kai#0001 | [ColonelKai](https://github.com/ColonelKai) |
-
